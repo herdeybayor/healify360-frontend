@@ -7,27 +7,20 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useCallback } from "react";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Link from "next/link";
+import { useCallback } from "react";
 
-const formSchema = z
-    .object({
-        firstName: z
-            .string({ message: "First name is required" })
-            .min(2, { message: "First name must be at least 2 characters long" })
-            .max(255, { message: "First name must be at most 255 characters long" }),
-        lastName: z
-            .string({ message: "Last name is required" })
-            .min(2, { message: "Last name must be at least 2 characters long" })
-            .max(255, { message: "Last name must be at most 255 characters long" }),
-        email: z.string({ message: "Email is required" }).email({ message: "Invalid email address" }),
-        password: z.string({ message: "Password is required" }).min(6, { message: "Password must be at least 6 characters long" }),
-        confirmPassword: z.string({ message: "Confirm password is required" }),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-    });
+const formSchema = z.object({
+    firstName: z
+        .string({ message: "First name is required" })
+        .min(2, { message: "First name must be at least 2 characters long" })
+        .max(255, { message: "First name must be at most 255 characters long" }),
+    lastName: z.string({ message: "Last name is required" }).min(2, { message: "Last name must be at least 2 characters long" }).max(255, { message: "Last name must be at most 255 characters long" }),
+    email: z.string({ message: "Email is required" }).email({ message: "Invalid email address" }),
+    password: z.string({ message: "Password is required" }).min(6, { message: "Password must be at least 6 characters long" }),
+    role: z.string({ message: "Role is required" }),
+});
 
 function SignupPage() {
     const form = useForm<z.infer<typeof formSchema>>({
@@ -37,7 +30,7 @@ function SignupPage() {
             lastName: "",
             email: "",
             password: "",
-            confirmPassword: "",
+            role: "patient",
         },
     });
 
@@ -113,19 +106,39 @@ function SignupPage() {
 
                             <FormField
                                 control={form.control}
-                                name="confirmPassword"
+                                name="role"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Confirm Password</FormLabel>
+                                        <FormLabel>Register As</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="••••••••" type="password" {...field} />
+                                            <Select {...field}>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select Role" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        {[
+                                                            { value: "patient", label: "Patient" },
+                                                            { value: "doctor", label: "Doctor" },
+                                                        ].map((option) => (
+                                                            <SelectItem key={option.value} value={option.value}>
+                                                                {option.label}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
 
-                            <Button type="submit">Submit &rarr;</Button>
+                            <div>
+                                <Button type="submit" className="mt-8 w-full">
+                                    Submit &rarr;
+                                </Button>
+                            </div>
                         </form>
 
                         <div className="mt-4 text-center">
