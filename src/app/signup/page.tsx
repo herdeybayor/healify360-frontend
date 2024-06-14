@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useCallback } from "react";
+import Link from "next/link";
 
 const formSchema = z
     .object({
@@ -126,6 +127,15 @@ function SignupPage() {
 
                             <Button type="submit">Submit &rarr;</Button>
                         </form>
+
+                        <div className="mt-4 text-center">
+                            <p className="text-neutral-600 text-sm dark:text-neutral-300">
+                                Already have an account?{" "}
+                                <Link href="/login" className="text-primary hover:underline">
+                                    Login
+                                </Link>
+                            </p>
+                        </div>
                     </Form>
                 </div>
             </div>
