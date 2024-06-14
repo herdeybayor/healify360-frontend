@@ -6,7 +6,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectLabel,
 } from '@/components/ui/select';
+
 import React from 'react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -17,10 +19,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className='flex items-center gap-2'>
           <p className='p-4 rounded-full bg-[#E2E8F0]'>CN</p>
           <Select>
-            <SelectTrigger className='p-0 outline-none border-none'>
-              <SelectValue placeholder='' />
-            </SelectTrigger>
+            <SelectTrigger className='p-0 outline-none border-none'></SelectTrigger>
             <SelectContent>
+              <p className='p-2'>My History</p>
               <SelectItem value='light'>Light</SelectItem>
               <SelectItem value='dark'>Dark</SelectItem>
               <SelectItem value='system'>System</SelectItem>
