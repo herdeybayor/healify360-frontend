@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className='flex h-screen justify-center items-center'>
+    <main className='flex justify-center items-center'>
       <ModeToggle />
       <Button asChild>
         <Link href='/signup'>Get Started</Link>

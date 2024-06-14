@@ -24,7 +24,7 @@ export default function SideBar() {
         <h1 className='font-caveatSans text-2xl text-[#008037]'>Projectxx</h1>
       </div>
 
-      <ul className='h-screen space-y-3'>
+      <ul className='space-y-3'>
         {[
           {
             label: 'Dashboard',
