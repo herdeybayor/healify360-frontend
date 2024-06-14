@@ -69,27 +69,29 @@ export default function SideBar() {
           );
         })}
       </ul>
-      <Select>
-        <SelectTrigger className='p-0 outline-none px-2'>
-          <SelectValue
-            onChange={() => {
-              console.log('changed');
-            }}>
+      <Select
+        onValueChange={(e) => {
+          setCurrentPath(e as any);
+        }}>
+        <SelectTrigger className='p-0 outline-none px-4'>
+          <SelectValue>
             <div className='flex items-center gap-2 text-[#64748B]'>
               {currentPath.icon}
               {currentPath.label}
             </div>
           </SelectValue>
         </SelectTrigger>
-        <SelectContent className='font-semibold w-full text-[#334155]'>
+        <SelectContent className='font-semibold text-[#334155]'>
           {routes.map((item, index) => {
             return (
-              <SelectItem key={index} value={item.url}>
-                <div className='flex items-center gap-2 text-[#64748B]'>
-                  {item.icon}
-                  {item.label}
-                </div>
-              </SelectItem>
+              <Link key={index} href={item.url}>
+                <SelectItem key={index} value={item as any}>
+                  <div className='flex items-center gap-2 text-[#64748B]'>
+                    {item.icon}
+                    {item.label}
+                  </div>
+                </SelectItem>
+              </Link>
             );
           })}
         </SelectContent>
