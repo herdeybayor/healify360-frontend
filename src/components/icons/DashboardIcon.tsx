@@ -11,14 +11,14 @@ const DashboardIcon = (props: SVGProps<SVGSVGElement>) => (
     {...props}>
     <path
       d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z'
-      stroke='#fff'
+      stroke='currentColor'
       strokeWidth={2}
       strokeLinecap='round'
       strokeLinejoin='round'
     />
     <path
       d='M9 22V12h6v10'
-      stroke='#fff'
+      stroke='currentColor'
       strokeWidth={2}
       strokeLinecap='round'
       strokeLinejoin='round'

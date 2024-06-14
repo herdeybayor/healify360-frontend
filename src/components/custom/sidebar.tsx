@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
+import { useState } from 'react';
 
 const routes = [
   {
@@ -40,8 +41,8 @@ const routes = [
 
 export default function SideBar() {
   const pathname = usePathname();
+  const [currentPath, setCurrentPath] = useState(routes[0]);
 
-  console.log(pathname);
   const isActive = function (href: string) {
     if (pathname === href) return true;
     else return false;
@@ -69,15 +70,28 @@ export default function SideBar() {
         })}
       </ul>
       <Select>
-        <SelectTrigger className='p-0 outline-none border-none'>
-          <SelectValue>
-            <p className='p-4 rounded-full bg-[#E2E8F0]'>CN</p>
+        <SelectTrigger className='p-0 outline-none px-2'>
+          <SelectValue
+            onChange={() => {
+              console.log('changed');
+            }}>
+            <div className='flex items-center gap-2 text-[#64748B]'>
+              {currentPath.icon}
+              {currentPath.label}
+            </div>
           </SelectValue>
         </SelectTrigger>
-        <SelectContent className='font-semibold text-[#334155]'>
-          <SelectItem value='light'>Light</SelectItem>
-          <SelectItem value='dark'>Dark</SelectItem>
-          <SelectItem value='system'>System</SelectItem>
+        <SelectContent className='font-semibold w-full text-[#334155]'>
+          {routes.map((item, index) => {
+            return (
+              <SelectItem key={index} value={item.url}>
+                <div className='flex items-center gap-2 text-[#64748B]'>
+                  {item.icon}
+                  {item.label}
+                </div>
+              </SelectItem>
+            );
+          })}
         </SelectContent>
       </Select>
     </div>
