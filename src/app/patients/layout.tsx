@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <div className='h-screen md:grid grid-cols-[auto_1fr]'>
       <SideBar />
       {children}
     </div>
