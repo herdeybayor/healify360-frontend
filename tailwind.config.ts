@@ -28,6 +28,7 @@ const config = {
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
         caveatSans: ['var(--font-caveat-sans)', ...fontFamily.sans],
+        petchSans: ['var(--font-petch)', ...fontFamily.sans],
       },
       boxShadow: {
         input: `0px 2px 3px -1px rgba(0,128,0,0.1), 0px 1px 0px 0px rgba(25,128,33,0.02), 0px 0px 0px 1px rgba(25,128,33,0.08)`,

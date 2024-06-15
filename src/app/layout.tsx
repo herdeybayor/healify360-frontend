@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import {
   Inter as FontSans,
   Caveat_Brush as CaveatSans,
+  Chakra_Petch as Petch,
 } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -12,6 +13,11 @@ const fontCaveatSans = CaveatSans({
   subsets: ['latin'],
   variable: '--font-caveat-sans',
   weight: '400',
+});
+const fontPetch = Petch({
+  subsets: ['latin'],
+  variable: '--font-petch',
+  weight: '600',
 });
 
 export const metadata: Metadata = {
@@ -28,8 +34,8 @@ export default function RootLayout({
     <html lang='en'>
       <body
         className={cn(
-          ['font-sans', '--font-caveat-sans'],
-          [fontSans.variable, fontCaveatSans.variable]
+          ['font-sans', '--font-caveat-sans', '--font-petch'],
+          [fontSans.variable, fontCaveatSans.variable, fontPetch.variable]
         )}>
         <ThemeProvider
           attribute='class'
