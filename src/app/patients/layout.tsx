@@ -46,7 +46,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className='col-start-1 col-end-2 row-start-1 row-span-full'>
         <SideBar />
       </div>
-      <div className='col-start-2 col-span-full md:px-11 md:py-8'>
+      <div className='col-start-2 col-span-full md:px-11 md:py-8 p-4'>
         {children}
       </div>
     </div>

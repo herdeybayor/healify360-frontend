@@ -5,7 +5,7 @@ import DashboardIcon from '../icons/DashboardIcon';
 import ExploreIcon from '../icons/ExploreIcon';
 import MessageIcon from '../icons/MessageIcon';
 import VideoCallIcon from '../icons/VideoCallIcon';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import {
   Select,
@@ -42,6 +42,7 @@ const routes = [
 export default function SideBar() {
   const pathname = usePathname();
   const [currentPath, setCurrentPath] = useState(routes[0]);
+  const router = useRouter();
 
   const isActive = function (href: string) {
     if (pathname === href) return true;
@@ -70,28 +71,25 @@ export default function SideBar() {
         })}
       </ul>
       <Select
-        onValueChange={(e) => {
+        onValueChange={(e: any) => {
           setCurrentPath(e as any);
+          router.push(e.url);
         }}>
         <SelectTrigger className='p-0 outline-none px-4'>
-          <SelectValue>
-            <div className='flex items-center gap-2 text-[#64748B]'>
-              {currentPath.icon}
-              {currentPath.label}
-            </div>
-          </SelectValue>
+          <div className='flex items-center gap-2 text-[#64748B]'>
+            {currentPath.icon}
+            {currentPath.label}
+          </div>
         </SelectTrigger>
         <SelectContent className='font-semibold text-[#334155]'>
           {routes.map((item, index) => {
             return (
-              <Link key={index} href={item.url}>
-                <SelectItem key={index} value={item as any}>
-                  <div className='flex items-center gap-2 text-[#64748B]'>
-                    {item.icon}
-                    {item.label}
-                  </div>
-                </SelectItem>
-              </Link>
+              <SelectItem key={index} value={item as any}>
+                <div className='flex items-center gap-2 text-[#64748B]'>
+                  {item.icon}
+                  {item.label}
+                </div>
+              </SelectItem>
             );
           })}
         </SelectContent>
