@@ -54,7 +54,7 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
           {timeSelected && !isBooked && isTimeSelected && (
             <>
               <DialogDescription className='text-base'>
-                Session with{' '}
+                Session with
                 <span className='text-[#00AC30]'>Dr. Dekunle Emmanuel</span>
               </DialogDescription>
               <p className='md:mt-6 mt-3 text-sm font-[500]'>
