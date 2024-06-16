@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 function PatientOnboarding() {
-    return <div>PatientOnboarding</div>;
+  return <div>PatientOnboarding</div>;
 }
 
 export default PatientOnboarding;
