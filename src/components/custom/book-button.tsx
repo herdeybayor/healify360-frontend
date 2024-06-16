@@ -14,6 +14,8 @@ import { Calendar } from '../ui/calendar';
 
 export default function BookButton({ date }: { date?: DateRange | undefined }) {
   const [selectedDate, setDate] = React.useState<DateRange | undefined>(date);
+  const [isDateSelected, setIsDateSelected] = React.useState(false);
+  const [time, setTime] = React.useState<string | undefined>(undefined);
   return (
     <Dialog>
       <DialogTrigger className='w-full'>
@@ -36,7 +38,7 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
           )}
         </DialogHeader>
         <>
-          {date && (
+          {(date || isDateSelected) && (
             <>
               <div className='md:space-y-6 space-y-4'>
                 <div>
@@ -46,6 +48,9 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                       (time) => (
                         <p
                           key={time}
+                          onClick={() => {
+                            setTime(time);
+                          }}
                           className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
                           {time}
                         </p>
@@ -55,6 +60,9 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                       (time) => (
                         <p
                           key={time}
+                          onClick={() => {
+                            setTime(time);
+                          }}
                           className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
                           {time}
                         </p>
@@ -68,6 +76,9 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                     {['12:00', '01:00PM', '02:00PM', '03:00PM'].map((time) => (
                       <p
                         key={time}
+                        onClick={() => {
+                          setTime(time);
+                        }}
                         className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
                         {time}
                       </p>
@@ -76,6 +87,9 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                       (time) => (
                         <p
                           key={time}
+                          onClick={() => {
+                            setTime(time);
+                          }}
                           className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
                           {time}
                         </p>
@@ -90,6 +104,9 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                       (time) => (
                         <p
                           key={time}
+                          onClick={() => {
+                            setTime(time);
+                          }}
                           className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
                           {time}
                         </p>
@@ -99,6 +116,9 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                       (time) => (
                         <p
                           key={time}
+                          onClick={() => {
+                            setTime(time);
+                          }}
                           className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
                           {time}
                         </p>
@@ -107,16 +127,28 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                   </div>
                 </div>
               </div>
+              <Button
+                className={`${!selectedDate && 'bg-[#F1F5F9] text-black'}`}>
+                Continue
+              </Button>
             </>
           )}
         </>
-        {!date && (
-          <Calendar
-            mode='range'
-            selected={selectedDate}
-            onSelect={(date) => setDate(date)}
-            className='mx-auto'
-          />
+        {!date && !isDateSelected && (
+          <>
+            <Calendar
+              mode='range'
+              selected={selectedDate}
+              onSelect={(date) => setDate(date)}
+              className='mx-auto'
+            />
+            <Button
+              disabled={!selectedDate}
+              onClick={() => setIsDateSelected(true)}
+              className={`${!selectedDate && 'bg-[#F1F5F9] text-black'}`}>
+              Continue
+            </Button>
+          </>
         )}
       </DialogContent>
     </Dialog>
