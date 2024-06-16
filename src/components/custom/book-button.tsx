@@ -63,7 +63,7 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
             </>
           )}
           {isBooked && (
-            <DialogTitle className='md:text-2xl font-bold text-center'>
+            <DialogTitle className='md:text-2xl mt-4 font-bold text-center'>
               Your appointment has been booked
             </DialogTitle>
           )}
