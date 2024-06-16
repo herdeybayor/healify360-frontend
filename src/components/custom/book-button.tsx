@@ -25,7 +25,9 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
   return (
     <Dialog>
       <DialogTrigger className='w-full'>
-        <Button className='w-full'>Book a Session</Button>
+        <Button className='w-full block' asChild>
+          <p>Book a Session</p>
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -51,7 +53,7 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
           )}
           {timeSelected && !isBooked && isTimeSelected && (
             <>
-              <DialogDescription className='text-base pr-52'>
+              <DialogDescription className='text-base'>
                 Session with{' '}
                 <span className='text-[#00AC30]'>Dr. Dekunle Emmanuel</span>
               </DialogDescription>
@@ -224,8 +226,8 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
             <p className='text-sm font-semibold text-[#475569]'>
               Booking session with
             </p>
-            <div className='bg-[#E2E8F0] p-2 rounded-2xl'>
-              <div className='text-[#475569] border-l border-[#00AC30]'>
+            <div className='bg-[#E2E8F0] p-2 rounded-2xl mt-2'>
+              <div className='text-[#475569] border-l-4 border-[#00AC30] pl-2'>
                 <p>Dr Adekunle Sheriff</p>
                 <div className='flex gap-2 items-center mt-2'>
                   <p className='flex items-center gap-2'>
@@ -236,6 +238,10 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                   </p>
                 </div>
               </div>
+            </div>
+            <div className='md:mt-6 mt-3 md:gap-6 gap-4 flex flex-col'>
+              <Button>Done</Button>
+              <Button className='bg-[#F1F5F9] text-black'>Reschedule</Button>
             </div>
           </div>
         )}
