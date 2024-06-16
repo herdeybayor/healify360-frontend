@@ -1,3 +1,4 @@
+import { MobileNav } from '@/components/custom/mobile-sidebar';
 import SideBar from '@/components/custom/sidebar';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,9 +25,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             height={32}
             className=''
           />
+          <h1 className='font-caveatSans text-2xl text-[#008037]'>Projectxx</h1>
         </div>
-
-        <div className='flex items-center gap-4'>
+        <div className='md:hidden'>
+          <MobileNav />
+        </div>
+        <div className='hidden md:flex items-center gap-4'>
           <Button className='bg-[#00AC30]'>Book a Session</Button>
           <div className='flex items-center gap-2'>
             <p className='p-4 rounded-full bg-[#E2E8F0]'>CN</p>

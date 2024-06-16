@@ -41,7 +41,6 @@ const routes = [
 
 export default function SideBar() {
   const pathname = usePathname();
-  const [currentPath, setCurrentPath] = useState(routes[0]);
   const router = useRouter();
 
   const isActive = function (href: string) {
@@ -70,30 +69,6 @@ export default function SideBar() {
           );
         })}
       </ul>
-      <Select
-        onValueChange={(e: any) => {
-          setCurrentPath(e as any);
-          router.push(e.url);
-        }}>
-        <SelectTrigger className='p-0 outline-none px-4'>
-          <div className='flex items-center gap-2 text-[#64748B]'>
-            {currentPath.icon}
-            {currentPath.label}
-          </div>
-        </SelectTrigger>
-        <SelectContent className='font-semibold text-[#334155]'>
-          {routes.map((item, index) => {
-            return (
-              <SelectItem key={index} value={item as any}>
-                <div className='flex items-center gap-2 text-[#64748B]'>
-                  {item.icon}
-                  {item.label}
-                </div>
-              </SelectItem>
-            );
-          })}
-        </SelectContent>
-      </Select>
     </div>
   );
 }
