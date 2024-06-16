@@ -12,6 +12,7 @@ import {
 import { DateRange } from 'react-day-picker';
 import { Calendar } from '../ui/calendar';
 import { Textarea } from '../ui/textarea';
+import { CalendarIcon, HourglassIcon } from 'lucide-react';
 
 export default function BookButton({ date }: { date?: DateRange | undefined }) {
   const [selectedDate, setDate] = React.useState<DateRange | undefined>(date);
@@ -28,12 +29,12 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          {!timeSelected && (
+          {!isTimeSelected && (
             <DialogTitle className='md:text-2xl font-bold'>
               Select available time
             </DialogTitle>
           )}
-          {timeSelected && (
+          {timeSelected && !isBooked && isTimeSelected && (
             <DialogTitle className='md:text-2xl font-bold'>
               Confirm your booking
             </DialogTitle>
@@ -48,7 +49,7 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
               Choose a date that is most convenient for you.
             </DialogDescription>
           )}
-          {timeSelected && (
+          {timeSelected && !isBooked && isTimeSelected && (
             <>
               <DialogDescription className='text-base pr-52'>
                 Session with{' '}
@@ -58,6 +59,11 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                 Describe your health issues
               </p>
             </>
+          )}
+          {isBooked && (
+            <DialogTitle className='md:text-2xl font-bold text-center'>
+              Your appointment has been booked
+            </DialogTitle>
           )}
         </DialogHeader>
         <>
@@ -195,7 +201,7 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
             </Button>
           </>
         )}
-        {timeSelected && isTimeSelected && (
+        {timeSelected && isTimeSelected && !isBooked && (
           <>
             <Textarea
               placeholder='Description of issues'
@@ -212,6 +218,26 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
               Confirm Booking
             </Button>
           </>
+        )}
+        {isBooked && (
+          <div>
+            <p className='text-sm font-semibold text-[#475569]'>
+              Booking session with
+            </p>
+            <div className='bg-[#E2E8F0] p-2 rounded-2xl'>
+              <div className='text-[#475569] border-l border-[#00AC30]'>
+                <p>Dr Adekunle Sheriff</p>
+                <div className='flex gap-2 items-center mt-2'>
+                  <p className='flex items-center gap-2'>
+                    <CalendarIcon size={20} /> <span>Wed, 24, July</span>
+                  </p>
+                  <p className='flex items-center gap-2'>
+                    <HourglassIcon size={20} /> <span>Wed, 24, July</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </DialogContent>
     </Dialog>
