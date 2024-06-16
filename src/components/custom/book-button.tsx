@@ -15,7 +15,7 @@ import { Calendar } from '../ui/calendar';
 export default function BookButton({ date }: { date?: DateRange | undefined }) {
   const [selectedDate, setDate] = React.useState<DateRange | undefined>(date);
   const [isDateSelected, setIsDateSelected] = React.useState(false);
-  const [time, setTime] = React.useState<string | undefined>(undefined);
+  const [timeSelected, setTime] = React.useState<string | undefined>(undefined);
   return (
     <Dialog>
       <DialogTrigger className='w-full'>
@@ -23,22 +23,34 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className='md:text-2xl font-bold'>
-            Select available time
-          </DialogTitle>
+          {!timeSelected && (
+            <DialogTitle className='md:text-2xl font-bold'>
+              Select available time
+            </DialogTitle>
+          )}
+          {timeSelected && (
+            <DialogTitle className='md:text-2xl font-bold'>
+              Confirm your booking
+            </DialogTitle>
+          )}
           {date && (
             <DialogDescription>
               In your local timezone (Africa/Lagos)
             </DialogDescription>
           )}
-          {!date && (
+          {!date && !isDateSelected && (
             <DialogDescription>
               Choose a date that is most convenient for you.
             </DialogDescription>
           )}
+          {timeSelected && (
+            <DialogDescription>
+              Session with Dr. Dekunle Emmanuel
+            </DialogDescription>
+          )}
         </DialogHeader>
         <>
-          {(date || isDateSelected) && (
+          {(date || (isDateSelected && !timeSelected)) && (
             <>
               <div className='md:space-y-6 space-y-4'>
                 <div>
@@ -51,7 +63,10 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                           onClick={() => {
                             setTime(time);
                           }}
-                          className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
+                          className={`border rounded-lg py-3 px-8 cursor-pointer text-center text-[#64748B] ${
+                            timeSelected === time &&
+                            'border text-[#00AC30] border-[#00AC30]'
+                          }`}>
                           {time}
                         </p>
                       )
@@ -63,7 +78,10 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                           onClick={() => {
                             setTime(time);
                           }}
-                          className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
+                          className={`border rounded-lg py-3 px-8 cursor-pointer text-center text-[#64748B] ${
+                            timeSelected === time &&
+                            'border text-[#00AC30] border-[#00AC30]'
+                          }`}>
                           {time}
                         </p>
                       )
@@ -73,16 +91,21 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                 <div>
                   <p className='text-base font-[500]'>🌞 Afternoon</p>
                   <div className='grid md:grid-cols-4 grid-cols-2 mt-2 gap-2'>
-                    {['12:00', '01:00PM', '02:00PM', '03:00PM'].map((time) => (
-                      <p
-                        key={time}
-                        onClick={() => {
-                          setTime(time);
-                        }}
-                        className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
-                        {time}
-                      </p>
-                    ))}
+                    {['12:00PM', '01:00PM', '02:00PM', '03:00PM'].map(
+                      (time) => (
+                        <p
+                          key={time}
+                          onClick={() => {
+                            setTime(time);
+                          }}
+                          className={`border rounded-lg py-3 px-8 cursor-pointer text-center text-[#64748B] ${
+                            timeSelected === time &&
+                            'border text-[#00AC30] border-[#00AC30]'
+                          }`}>
+                          {time}
+                        </p>
+                      )
+                    )}
                     {['12:30PM', '01:30PM', '02:30PM', '03:30PM'].map(
                       (time) => (
                         <p
@@ -90,7 +113,10 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                           onClick={() => {
                             setTime(time);
                           }}
-                          className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
+                          className={`border rounded-lg py-3 px-8 cursor-pointer text-center text-[#64748B] ${
+                            timeSelected === time &&
+                            'border text-[#00AC30] border-[#00AC30]'
+                          }`}>
                           {time}
                         </p>
                       )
@@ -107,7 +133,10 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                           onClick={() => {
                             setTime(time);
                           }}
-                          className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
+                          className={`border rounded-lg py-3 px-8 cursor-pointer text-center text-[#64748B] ${
+                            timeSelected === time &&
+                            'border text-[#00AC30] border-[#00AC30]'
+                          }`}>
                           {time}
                         </p>
                       )
@@ -119,7 +148,10 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                           onClick={() => {
                             setTime(time);
                           }}
-                          className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
+                          className={`border rounded-lg py-3 px-8 cursor-pointer text-center text-[#64748B] ${
+                            timeSelected === time &&
+                            'border text-[#00AC30] border-[#00AC30]'
+                          }`}>
                           {time}
                         </p>
                       )
