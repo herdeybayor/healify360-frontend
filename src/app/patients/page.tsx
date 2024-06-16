@@ -12,13 +12,13 @@ export default function Page() {
             alt=''
             width={266}
             height={240}
-            className='self-end hidden md:block'
+            className='self-end absolute md:relative top-0 bottom-0 h-full -left-10 md:left-0'
           />
           <div className='flex flex-col md:items-center items-start self-center'>
-            <h1 className='lg:text-4xl sm:text-xl z-30 md:text-center font-petchSans break-words'>
+            <h1 className='lg:text-4xl sm:text-xl z-30 md:text-center font-petchSans break-words max-w-56 text-center self-center md:max-w-none'>
               {'Schedule Call with a\nprofessional doctors\ntoday'}
             </h1>
-            <Button className='md:mt-3 mt-2 md:px-8 bg-[#334155]'>
+            <Button className='md:mt-3 z-40 self-center mt-2 md:px-8 bg-[#334155]'>
               Explore
             </Button>
           </div>
