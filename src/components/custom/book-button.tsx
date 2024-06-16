@@ -39,6 +39,15 @@ export default function BookButton() {
                   </p>
                 )
               )}
+              {['08:30AM', '09:30AM', '10:30AM', '11:30AM', '12:30PM'].map(
+                (time) => (
+                  <p
+                    key={time}
+                    className='border rounded-lg py-3 px-8 text-center text-[#64748B]'>
+                    {time}
+                  </p>
+                )
+              )}
             </div>
           </div>
         </div>
