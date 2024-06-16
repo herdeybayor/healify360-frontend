@@ -6,8 +6,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-  SelectLabel,
 } from '@/components/ui/select';
 import Image from 'next/image';
 

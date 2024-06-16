@@ -1,20 +1,12 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import DashboardIcon from '../icons/DashboardIcon';
 import ExploreIcon from '../icons/ExploreIcon';
 import MessageIcon from '../icons/MessageIcon';
 import VideoCallIcon from '../icons/VideoCallIcon';
-import { usePathname, useRouter } from 'next/navigation';
-import Image from 'next/image';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
-import { useState } from 'react';
 
 const routes = [
   {
