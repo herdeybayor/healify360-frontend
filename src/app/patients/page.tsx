@@ -1,4 +1,5 @@
 'use client';
+import BookButton from '@/components/custom/book-button';
 import BriefCaseIcon from '@/components/icons/BriefCaseIcon';
 import ExploreIcon from '@/components/icons/ExploreIcon';
 import GraduationHatIcon from '@/components/icons/GraduationHatIcon';
@@ -113,7 +114,7 @@ export default function Page() {
                       <GraduationHatIcon className='text-base' />
                       <p className='font-normal text-sm'>5 years experience</p>
                     </div>
-                    <Button className='w-full'>Book a Session</Button>
+                    <BookButton />
                   </div>
                 </div>
               ))}
