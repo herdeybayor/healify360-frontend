@@ -111,7 +111,7 @@ function SignupPage() {
                                     <FormItem>
                                         <FormLabel>Register As</FormLabel>
                                         <FormControl>
-                                            <Select {...field}>
+                                            <Select {...field} onValueChange={field.onChange}>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Select Role" />
                                                 </SelectTrigger>
