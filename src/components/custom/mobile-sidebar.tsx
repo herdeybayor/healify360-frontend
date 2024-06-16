@@ -55,10 +55,9 @@ export function MobileNav() {
         <ul className='space-y-3 mt-8'>
           {routes.map((item, index) => {
             return (
-              <SheetTrigger asChild>
+              <SheetTrigger asChild key={index}>
                 <Link href={item.url} className='block'>
                   <li
-                    key={index}
                     className={`flex items-center gap-3 py-2 px-3 rounded-lg  ${
                       isActive(item.url)
                         ? 'bg-[#00AC30] text-white'

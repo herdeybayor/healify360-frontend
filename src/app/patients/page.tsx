@@ -31,6 +31,7 @@ const routes = [
 
 export default function Page() {
   const [date, setDate] = useState<undefined | DateRange>(undefined);
+
   return (
     <div className=''>
       <h1 className='md:text-2xl font-semibold'>Welcome Sheriff 🔥,</h1>
@@ -114,7 +115,7 @@ export default function Page() {
                       <GraduationHatIcon className='text-base' />
                       <p className='font-normal text-sm'>5 years experience</p>
                     </div>
-                    <BookButton />
+                    <BookButton date={date} />
                   </div>
                 </div>
               ))}
