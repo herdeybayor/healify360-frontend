@@ -1,9 +1,14 @@
-import DashboardIcon from '@/components/icons/DashboardIcon';
+'use client';
+import BriefCaseIcon from '@/components/icons/BriefCaseIcon';
 import ExploreIcon from '@/components/icons/ExploreIcon';
+import GraduationHatIcon from '@/components/icons/GraduationHatIcon';
 import MessageIcon from '@/components/icons/MessageIcon';
 import VideoCallIcon from '@/components/icons/VideoCallIcon';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import Image from 'next/image';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
 
 const routes = [
   {
@@ -24,8 +29,9 @@ const routes = [
 ];
 
 export default function Page() {
+  const [date, setDate] = useState<undefined | DateRange>(undefined);
   return (
-    <div>
+    <div className=''>
       <h1 className='md:text-2xl font-semibold'>Welcome Sheriff 🔥,</h1>
       <div>
         <div className='mt-6 bg-[#EFFFF4] rounded-lg grid grid-cols-[1fr_auto] min-h-44 md:grid-cols-[30%_1fr_30%] relative pt-3 md:px-0 px-3'>
@@ -55,8 +61,8 @@ export default function Page() {
       </div>
       <div className='md:mt-6 md:text-2xl text-xl mt-3 font-semibold'>
         <h2>Quick Links</h2>
-        <div className='md:mt-6 mt-4'>
-          <div className='flex gap-8 overflow overflow-y-auto'>
+        <div className='md:mt-6 mt-4 md:grid grid-cols-[auto_1fr] auto-cols-max grid-rows-[auto_auto_auto_1fr] gap-6'>
+          <div className='flex gap-5 md:gap-8 overflow overflow-y-auto row-start-1 row-end-2'>
             {routes.map((route, index) => (
               <div
                 key={index}
@@ -66,8 +72,53 @@ export default function Page() {
               </div>
             ))}
           </div>
-          <div></div>
-          <div></div>
+          <div className='row-start-1 row-end-3'>
+            <div className='w-fit rounded-md border hidden md:block'>
+              <Calendar
+                mode='range'
+                selected={date}
+                onSelect={(date) => setDate(date)}
+                className='mx-auto'
+              />
+              <div className='px-5 pb-6'>
+                <Button className='w-full'>Book a Session</Button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h2>Top Rated Doctors</h2>
+            <div className='md:mt-6 mt-4 flex items-center gap-3 md:gap-7 overflow-y-auto'>
+              {Array.from({ length: 2 }).map((_, index) => (
+                <div key={index} className='border w-fit p-[14px] rounded-lg'>
+                  <Image
+                    src='/doctor.png'
+                    alt=''
+                    width={307}
+                    height={235}
+                    className='rounded-lg'
+                  />
+                  <div className='space-y-2 mt-2 min-w-72'>
+                    <p>Yinka Quadri</p>
+                    <div className='flex items-center gap-2'>
+                      <BriefCaseIcon className='text-base' />
+                      <p className='font-normal text-sm'>Cardiology</p>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                      <MessageIcon className='text-base' />
+                      <p className='font-normal text-sm'>
+                        62 sessions (33 reviews)
+                      </p>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                      <GraduationHatIcon className='text-base' />
+                      <p className='font-normal text-sm'>5 years experience</p>
+                    </div>
+                    <Button className='w-full'>Book a Session</Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
