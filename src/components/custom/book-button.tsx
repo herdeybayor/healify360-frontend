@@ -240,7 +240,9 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
               </div>
             </div>
             <div className='md:mt-6 mt-3 md:gap-6 gap-4 flex flex-col'>
-              <Button>Done</Button>
+              <DialogTrigger className='w-full'>
+                <Button className='w-full'>Done</Button>
+              </DialogTrigger>
               <Button className='bg-[#F1F5F9] text-black'>Reschedule</Button>
             </div>
           </div>
