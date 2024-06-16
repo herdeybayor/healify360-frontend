@@ -11,11 +11,16 @@ import {
 } from '../ui/dialog';
 import { DateRange } from 'react-day-picker';
 import { Calendar } from '../ui/calendar';
+import { Textarea } from '../ui/textarea';
 
 export default function BookButton({ date }: { date?: DateRange | undefined }) {
   const [selectedDate, setDate] = React.useState<DateRange | undefined>(date);
   const [isDateSelected, setIsDateSelected] = React.useState(false);
   const [timeSelected, setTime] = React.useState<string | undefined>(undefined);
+  const [description, setDescription] = React.useState<string | undefined>('');
+  const [isTimeSelected, setIsTimeSelected] = React.useState(false);
+  const [isBooked, setIsBooked] = React.useState(false);
+
   return (
     <Dialog>
       <DialogTrigger className='w-full'>
@@ -44,13 +49,20 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
             </DialogDescription>
           )}
           {timeSelected && (
-            <DialogDescription>
-              Session with Dr. Dekunle Emmanuel
-            </DialogDescription>
+            <>
+              <DialogDescription className='text-base pr-52'>
+                Session with{' '}
+                <span className='text-[#00AC30]'>Dr. Dekunle Emmanuel</span>
+              </DialogDescription>
+              <p className='md:mt-6 mt-3 text-sm font-[500]'>
+                Describe your health issues
+              </p>
+            </>
           )}
         </DialogHeader>
         <>
-          {(date || (isDateSelected && !timeSelected)) && (
+          {((date && !isTimeSelected) ||
+            (isDateSelected && !isTimeSelected)) && (
             <>
               <div className='md:space-y-6 space-y-4'>
                 <div>
@@ -160,7 +172,8 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
                 </div>
               </div>
               <Button
-                className={`${!selectedDate && 'bg-[#F1F5F9] text-black'}`}>
+                onClick={() => setIsTimeSelected(true)}
+                className={`${!timeSelected && 'bg-[#F1F5F9] text-black'}`}>
                 Continue
               </Button>
             </>
@@ -179,6 +192,24 @@ export default function BookButton({ date }: { date?: DateRange | undefined }) {
               onClick={() => setIsDateSelected(true)}
               className={`${!selectedDate && 'bg-[#F1F5F9] text-black'}`}>
               Continue
+            </Button>
+          </>
+        )}
+        {timeSelected && isTimeSelected && (
+          <>
+            <Textarea
+              placeholder='Description of issues'
+              onChange={(e) => setDescription(e.target.value)}
+              rows={5}
+              className='w-full'
+            />
+            <Button
+              disabled={!description}
+              className='w-full'
+              onClick={() => {
+                setIsBooked(true);
+              }}>
+              Confirm Booking
             </Button>
           </>
         )}
