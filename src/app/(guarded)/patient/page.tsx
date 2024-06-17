@@ -69,7 +69,7 @@ export default function PatientDashboard() {
               {routes.map((route, index) => (
                 <div
                   key={index}
-                  className='flex flex-col gap-4 mb-3 md:mb-0 p-5 min-w-[170px] md:min-w-full rounded-lg border w-full'>
+                  className='flex flex-col gap-4 mb-3 md:mb-0 p-5 min-w-[170px] md:min-w-0 rounded-lg border w-full'>
                   <div className=''>{route.icon}</div>
                   <p className='text-base'>{route.label}</p>
                 </div>
