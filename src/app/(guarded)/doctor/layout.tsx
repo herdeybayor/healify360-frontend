@@ -12,7 +12,7 @@ function DoctorsLayout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="flex-1">
                 <DoctorNavbar />
-                <main>{children}</main>
+                <main className="p-5 lg:px-11 lg:py-6">{children}</main>
             </div>
         </div>
     );

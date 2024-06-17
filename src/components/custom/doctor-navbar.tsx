@@ -23,7 +23,7 @@ function DoctorNavbar() {
 
     const { user } = useUser();
     return (
-        <nav className="flex items-center lg:px-11 lg:py-6 lg:space-x-6 justify-end">
+        <nav className="flex items-center lg:px-11 lg:py-6 lg:space-x-6 justify-end border-b border-gray-200">
             <div className="hidden lg:flex items-center space-x-6">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
