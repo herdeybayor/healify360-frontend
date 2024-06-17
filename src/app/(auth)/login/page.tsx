@@ -9,6 +9,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { useCallback } from "react";
 import Link from "next/link";
+import { AuthLogin } from "@/http";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const formSchema = z.object({
     email: z.string({ message: "Email is required" }).email({ message: "Invalid email address" }),
@@ -16,6 +21,8 @@ const formSchema = z.object({
 });
 
 function LoginPage() {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -24,9 +31,26 @@ function LoginPage() {
         },
     });
 
-    const onSubmit = useCallback((data: z.infer<typeof formSchema>) => {
-        console.log(data);
-    }, []);
+    const { mutateAsync: login, isPending: isLoggingIn } = useMutation({
+        mutationFn: AuthLogin,
+        onSuccess(data) {
+            const { user, token } = data?.data;
+            setCookie("access-token", token.access_token);
+            if (user?.role === "patient") return router.push("/patient");
+            if (user?.role === "doctor") return router.push("/doctor");
+        },
+    });
+
+    const onSubmit = useCallback(
+        (data: z.infer<typeof formSchema>) => {
+            toast.promise(login(data), {
+                loading: "Logging in...",
+                success: "Logged in successfully",
+                error: (error) => error?.response?.data?.message || "Failed to login",
+            });
+        },
+        [login]
+    );
 
     return (
         <div className="h-screen flex items-center justify-center">
@@ -66,7 +90,9 @@ function LoginPage() {
                                 )}
                             />
 
-                            <Button type="submit">Submit &rarr;</Button>
+                            <Button type="submit" disabled={isLoggingIn}>
+                                Submit &rarr;
+                            </Button>
                         </form>
 
                         <div className="mt-4 text-center">
