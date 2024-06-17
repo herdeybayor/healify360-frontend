@@ -69,7 +69,7 @@ export default function PatientDashboard() {
                     <div>
                         <h2>Top Rated Doctors</h2>
                         <div className="md:mt-6 mt-4 flex items-center gap-3 md:gap-7 overflow-y-auto">
-                            {Array.from({ length: 2 }).map((_, index) => (
+                            {Array.from({ length: 12 }).map((_, index) => (
                                 <div key={index} className="border w-fit p-[14px] rounded-lg">
                                     <Image src="/doctor.png" alt="" width={307} height={235} className="rounded-lg" />
                                     <div className="space-y-2 mt-2 min-w-72">
