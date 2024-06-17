@@ -63,13 +63,13 @@ export default function PatientDashboard() {
       </div>
       <div className='md:mt-9 md:text-2xl text-xl mt-3 font-semibold'>
         <h2>Quick Links</h2>
-        <div className='md:flex gap-x-11 md:mt-6 mt-3'>
+        <div className='lg:flex md:mt-6 gap-x-11 mt-3'>
           <div className='flex-1'>
             <div className='flex gap-5 md:gap-8 overflow overflow-y-auto'>
               {routes.map((route, index) => (
                 <div
                   key={index}
-                  className='flex flex-col gap-4 mb-3 md:mb-0 p-5 rounded-lg min-w-[210px] border w-full'>
+                  className='flex flex-col gap-4 mb-3 md:mb-0 p-5 rounded-lg border w-full'>
                   <div className=''>{route.icon}</div>
                   <p className='text-base'>{route.label}</p>
                 </div>
@@ -77,11 +77,9 @@ export default function PatientDashboard() {
             </div>
             <div className='mt-3 md:mt-5'>
               <h2>Top Rated Doctors</h2>
-              <div className='overflow-y-auto grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:mt-6 mt-3'>
+              <div className='flex flex-wrap md:mt-6 mt-3'>
                 {Array.from({ length: 12 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className='border md:w-fit p-[14px] rounded-lg'>
+                  <div key={index} className='border p-[14px] rounded-lg'>
                     <Image
                       src='/doctor.png'
                       alt=''
