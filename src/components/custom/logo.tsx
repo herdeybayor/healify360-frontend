@@ -9,9 +9,9 @@ export interface LogoProps {
 function Logo({ href = "/" }: LogoProps) {
     return (
         <Link href={href}>
-            <div className="items-center gap-3 flex md:hidden">
-                <Image src="/logo.png" alt="logo" width={32} height={32} />
-                <h1 className="font-caveatSans text-2xl text-[#008037]">Projectxx</h1>
+            <div className="items-center gap-3 flex">
+                <Image src="/logo.png" alt="logo" width={64} height={64} />
+                <h1 className="font-caveatSans text-2xl text-[#008037]">Healify360</h1>
             </div>
         </Link>
     );
