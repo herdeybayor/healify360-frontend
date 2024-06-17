@@ -15,6 +15,7 @@ export const ReactQueryClientProvider = ({ children }: { children: React.ReactNo
                 },
                 mutationCache: new MutationCache({
                     onError: async (error) => {
+                        console.error(error);
                         // await handleHTTPResponse(error, router);
                     },
                 }),

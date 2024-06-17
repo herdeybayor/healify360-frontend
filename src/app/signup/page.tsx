@@ -1,20 +1,20 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import Link from "next/link";
-import { useCallback } from "react";
 import { AuthRegister } from "@/http";
 import { setCookie } from "cookies-next";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { useCallback } from "react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
     firstName: z
@@ -41,23 +41,13 @@ function SignupPage() {
         },
     });
 
-    const { mutate: register, isPending: isRegistering } = useMutation({
+    const { mutateAsync: register, isPending: isRegistering } = useMutation({
         mutationFn: AuthRegister,
         onSuccess(data) {
-            const { user, token } = data;
+            const { user, token } = data?.data;
             setCookie("access-token", token.access_token);
-
-            console.log(data);
-            if (user?.role === "patient") {
-                router.push("/patient");
-
-                return;
-            }
-            if (user?.role === "doctor") {
-                router.push("/doctor");
-
-                return;
-            }
+            if (user?.role === "patient") return router.push("/patient");
+            if (user?.role === "doctor") return router.push("/doctor");
         },
     });
 
@@ -71,7 +61,11 @@ function SignupPage() {
                 role: data.role,
             };
 
-            register(payload);
+            toast.promise(register(payload), {
+                loading: "Registering...",
+                success: "Registration successful",
+                error: (error) => error.response?.data.message || "Registration failed",
+            });
         },
         [register]
     );
@@ -174,7 +168,6 @@ function SignupPage() {
 
                             <div>
                                 <Button type="submit" className="mt-8 w-full" disabled={isRegistering}>
-                                    {isRegistering && <Loader2 className="mr-2 animate-spin" size={16} />}
                                     Submit &rarr;
                                 </Button>
                             </div>
