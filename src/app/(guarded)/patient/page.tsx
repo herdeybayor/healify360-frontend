@@ -65,7 +65,7 @@ export default function PatientDashboard() {
         <h2>Quick Links</h2>
         <div className='md:mt-6 mt-4 gap-6 flex'>
           <div>
-            <div className='flex gap-5 md:gap-8 overflow overflow-y-auto row-start-1 row-end-2'>
+            <div className='flex gap-5 md:gap-8 justify-between overflow overflow-y-auto row-start-1 row-end-2'>
               {routes.map((route, index) => (
                 <div
                   key={index}
@@ -75,9 +75,9 @@ export default function PatientDashboard() {
                 </div>
               ))}
             </div>
-            <div>
+            <div className='mt-3'>
               <h2>Top Rated Doctors</h2>
-              <div className='md:mt-6 mt-4 flex items-center gap-3 md:gap-7 overflow-y-auto'>
+              <div className='md:mt-6 mt-4 grid grid-cols-2 gap-3 md:gap-7 overflow-y-auto'>
                 {Array.from({ length: 12 }).map((_, index) => (
                   <div key={index} className='border w-fit p-[14px] rounded-lg'>
                     <Image
