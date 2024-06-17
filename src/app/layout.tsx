@@ -29,15 +29,15 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <ReactQueryClientProvider>
-            <html lang="en">
-                <body className={cn("font-sans", fontSans.variable, fontCaveatSans.variable, fontPetch.variable)}>
+        <html lang="en">
+            <body className={cn("font-sans", fontSans.variable, fontCaveatSans.variable, fontPetch.variable)}>
+                <ReactQueryClientProvider>
                     <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
                         <Toaster />
                         {children}
                     </ThemeProvider>
-                </body>
-            </html>
-        </ReactQueryClientProvider>
+                </ReactQueryClientProvider>
+            </body>
+        </html>
     );
 }
