@@ -118,7 +118,7 @@ function PatientOnboarding() {
                 <FormControl>
                   <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder='Select gender' />
+                      <SelectValue placeholder='Select your gender' />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
