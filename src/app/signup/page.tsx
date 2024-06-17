@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useMutation } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -10,6 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Link from "next/link";
 import { useCallback } from "react";
+import { AuthRegister } from "@/http";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     firstName: z
@@ -23,6 +27,8 @@ const formSchema = z.object({
 });
 
 function SignupPage() {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -31,6 +37,26 @@ function SignupPage() {
             email: "",
             password: "",
             role: "patient",
+        },
+    });
+
+    const {} = useMutation({
+        mutationFn: AuthRegister,
+        onSuccess(data) {
+            const { user, token } = data;
+            setCookie("access-token", token.access_token);
+
+            console.log(data);
+            if (user?.role === "patient") {
+                router.push("/patient");
+
+                return;
+            }
+            if (user?.role === "doctor") {
+                router.push("/doctor");
+
+                return;
+            }
         },
     });
 
