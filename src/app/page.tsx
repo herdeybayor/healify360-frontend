@@ -63,11 +63,12 @@ export default function Home() {
               'Revolutionising healthcare through seamless \ndoctor-patient connections'
             }
           </h1>
-          <p className='text-[#475467]'>
+          <p className='text-[#475467] mt-4'>
             Healify 360 is on a mission to transform healthcare by connecting
             patients with certified doctors from partner hospitals. Experience
             convenient and streamlined healthcare like never before.
           </p>
+          <Button className='mt-3'>Sign Up</Button>
         </div>
       </main>
     </div>
