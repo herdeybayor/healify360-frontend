@@ -31,15 +31,14 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/', request.nextUrl));
     }
   } else {
-    // Redirect to login if user is not logged in
-    // if (!accessToken) {
-    //     return NextResponse.redirect(new URL("/login", request.nextUrl));
-    // }
+    if (!accessToken) {
+      return NextResponse.redirect(new URL('/login', request.nextUrl));
+    }
   }
 
   // Log middleware details in development
   if (process.env.NODE_ENV === 'development') {
-    console.log('Middleware: ', pathname, accessToken);
+    console.log('Middleware: ', pathname, accessToken?.value);
   }
 
   return NextResponse.next();
