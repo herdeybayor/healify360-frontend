@@ -37,7 +37,7 @@ export function middleware(request: NextRequest) {
 
     // Log middleware details in development
     if (process.env.NODE_ENV === "development") {
-        console.log("Middleware: ", pathname, accessToken);
+        console.log("Middleware: ", pathname, accessToken?.value);
     }
 
     return NextResponse.next();
