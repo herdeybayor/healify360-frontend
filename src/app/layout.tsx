@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { ReactQueryClientProvider } from "@/components/provider/react-query-client-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 const fontCaveatSans = CaveatSans({
@@ -32,6 +33,7 @@ export default function RootLayout({
             <html lang="en">
                 <body className={cn("font-sans", fontSans.variable, fontCaveatSans.variable, fontPetch.variable)}>
                     <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+                        <Toaster />
                         {children}
                     </ThemeProvider>
                 </body>
