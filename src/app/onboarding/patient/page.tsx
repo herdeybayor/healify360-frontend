@@ -114,7 +114,7 @@ function PatientOnboarding() {
             name='gender'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Register As</FormLabel>
+                <FormLabel>Gender</FormLabel>
                 <FormControl>
                   <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
