@@ -63,7 +63,7 @@ export default function PatientDashboard() {
       </div>
       <div className='md:mt-6 md:text-2xl text-xl mt-3 font-semibold'>
         <h2>Quick Links</h2>
-        <div className='md:mt-6 mt-4 md:grid grid-cols-[auto_1fr] auto-cols-max grid-rows-[auto_auto_auto_1fr] gap-6'>
+        <div className='md:mt-6 mt-4 gap-6'>
           <div className='flex gap-5 md:gap-8 overflow overflow-y-auto row-start-1 row-end-2'>
             {routes.map((route, index) => (
               <div
