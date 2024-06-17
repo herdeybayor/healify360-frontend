@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -8,8 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AuthRegister } from "@/http";
+import { setCookie } from "cookies-next";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
     firstName: z
@@ -23,6 +28,8 @@ const formSchema = z.object({
 });
 
 function SignupPage() {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -34,9 +41,34 @@ function SignupPage() {
         },
     });
 
-    const onSubmit = useCallback((data: z.infer<typeof formSchema>) => {
-        console.log(data);
-    }, []);
+    const { mutateAsync: register, isPending: isRegistering } = useMutation({
+        mutationFn: AuthRegister,
+        onSuccess(data) {
+            const { user, token } = data?.data;
+            setCookie("access-token", token.access_token);
+            if (user?.role === "patient") return router.push("/patient");
+            if (user?.role === "doctor") return router.push("/doctor");
+        },
+    });
+
+    const onSubmit = useCallback(
+        (data: z.infer<typeof formSchema>) => {
+            const payload = {
+                first_name: data.firstName,
+                last_name: data.lastName,
+                email: data.email,
+                password: data.password,
+                role: data.role,
+            };
+
+            toast.promise(register(payload), {
+                loading: "Registering...",
+                success: "Registration successful",
+                error: (error) => error.response?.data.message || "Registration failed",
+            });
+        },
+        [register]
+    );
 
     return (
         <div className="h-screen flex items-center justify-center">
@@ -135,7 +167,7 @@ function SignupPage() {
                             />
 
                             <div>
-                                <Button type="submit" className="mt-8 w-full">
+                                <Button type="submit" className="mt-8 w-full" disabled={isRegistering}>
                                     Submit &rarr;
                                 </Button>
                             </div>
