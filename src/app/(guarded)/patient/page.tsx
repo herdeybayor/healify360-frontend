@@ -61,9 +61,9 @@ export default function PatientDashboard() {
           />
         </div>
       </div>
-      <div className='md:mt-6 md:text-2xl text-xl mt-3 font-semibold'>
+      <div className='md:mt-9 md:text-2xl text-xl mt-3 font-semibold'>
         <h2>Quick Links</h2>
-        <div className='md:flex gap-x-11'>
+        <div className='md:flex gap-x-11 md:mt-6 mt-3'>
           <div className='flex-1'>
             <div className='flex gap-5 md:gap-8 overflow overflow-y-auto'>
               {routes.map((route, index) => (
@@ -75,9 +75,9 @@ export default function PatientDashboard() {
                 </div>
               ))}
             </div>
-            <div className='mt-3'>
+            <div className='mt-3 md:mt-5'>
               <h2>Top Rated Doctors</h2>
-              <div className='overflow-y-auto grid md:grid-cols-2 lg:grid-cols-3'>
+              <div className='overflow-y-auto grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:mt-6 mt-3'>
                 {Array.from({ length: 12 }).map((_, index) => (
                   <div
                     key={index}
@@ -89,7 +89,7 @@ export default function PatientDashboard() {
                       height={235}
                       className='rounded-lg w-full'
                     />
-                    <div className='space-y-2 mt-2 min-w-72'>
+                    <div className='space-y-2 mt-2'>
                       <p>Yinka Quadri</p>
                       <div className='flex items-center gap-2'>
                         <BriefCaseIcon className='text-base' />
@@ -115,8 +115,8 @@ export default function PatientDashboard() {
             </div>
           </div>
 
-          <div className='row-start-1 row-end-3'>
-            <div className='w-fit rounded-md border hidden md:block'>
+          <div className=''>
+            <div className='w-fit rounded-md border hidden lg:block'>
               <Calendar
                 mode='range'
                 selected={date}
