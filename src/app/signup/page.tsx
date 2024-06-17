@@ -14,6 +14,7 @@ import { useCallback } from "react";
 import { AuthRegister } from "@/http";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
     firstName: z
@@ -40,7 +41,7 @@ function SignupPage() {
         },
     });
 
-    const {} = useMutation({
+    const { mutate: register, isPending: isRegistering } = useMutation({
         mutationFn: AuthRegister,
         onSuccess(data) {
             const { user, token } = data;
@@ -60,9 +61,20 @@ function SignupPage() {
         },
     });
 
-    const onSubmit = useCallback((data: z.infer<typeof formSchema>) => {
-        console.log(data);
-    }, []);
+    const onSubmit = useCallback(
+        (data: z.infer<typeof formSchema>) => {
+            const payload = {
+                first_name: data.firstName,
+                last_name: data.lastName,
+                email: data.email,
+                password: data.password,
+                role: data.role,
+            };
+
+            register(payload);
+        },
+        [register]
+    );
 
     return (
         <div className="h-screen flex items-center justify-center">
@@ -161,7 +173,8 @@ function SignupPage() {
                             />
 
                             <div>
-                                <Button type="submit" className="mt-8 w-full">
+                                <Button type="submit" className="mt-8 w-full" disabled={isRegistering}>
+                                    {isRegistering && <Loader2 className="mr-2 animate-spin" size={16} />}
                                     Submit &rarr;
                                 </Button>
                             </div>

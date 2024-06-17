@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { getCookie } from "cookies-next";
 
-const baseURL = process.env.BASE_BACKEND_URL || "http://localhost:4000";
+const baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || "http://localhost:4000";
 
 // Create new axios instance
 const $http: AxiosInstance = axios.create({
