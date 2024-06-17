@@ -14,6 +14,7 @@ import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import ms from "ms";
 
 const formSchema = z.object({
     email: z.string({ message: "Email is required" }).email({ message: "Invalid email address" }),
@@ -35,7 +36,7 @@ function LoginPage() {
         mutationFn: AuthLogin,
         onSuccess(data) {
             const { user, token } = data?.data;
-            setCookie("access-token", token.access_token);
+            setCookie("access-token", token.access_token, { maxAge: ms("30d") });
             if (user?.role === "patient") return router.push("/patient");
             if (user?.role === "doctor") return router.push("/doctor");
         },
