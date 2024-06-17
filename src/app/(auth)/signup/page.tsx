@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "sonner";
+import ms from "ms";
 
 const formSchema = z.object({
     firstName: z
@@ -45,7 +46,7 @@ function SignupPage() {
         mutationFn: AuthRegister,
         onSuccess(data) {
             const { user, token } = data?.data;
-            setCookie("access-token", token.access_token);
+            setCookie("access-token", token.access_token, { maxAge: ms("30d") });
             if (user?.role === "patient") return router.push("/patient");
             if (user?.role === "doctor") return router.push("/doctor");
         },
