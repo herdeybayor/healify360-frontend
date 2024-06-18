@@ -1,107 +1,42 @@
 "use client";
 
+import AutoForm, { AutoFormSubmit } from "@/components/custom/auto-form";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Step1Data, step1Schema, usePatientOnboardingStep, usePatientOnboardingStore } from "@/store/patient-onboarding-store";
+import { Step3Data, step3Schema, usePatientOnboardingStep, usePatientOnboardingStore } from "@/store/patient-onboarding-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 function PatientOnboarding3() {
-    const { step1, setData } = usePatientOnboardingStore();
+    const { step3, setData } = usePatientOnboardingStore();
     const [currentStep, setCurrentStep] = usePatientOnboardingStep();
 
-    const form = useForm<Step1Data>({
-        resolver: zodResolver(step1Schema),
-        defaultValues: step1,
-    });
-
     const onSubmit = useCallback(
-        (data: Step1Data) => {
-            setData({ step: 1, data });
-            setCurrentStep("3");
+        (data: Step3Data) => {
+            setData({ step: 3, data });
+            console.log(data);
         },
-        [setData, setCurrentStep]
+        [setData]
     );
     return (
         <div className="max-w-md">
             <h1 className="font-semibold text-2xl">Medical History and Preferences</h1>
             <p className="mt-4 text-muted-foreground">Gathering the patient&apos;s medical history and preferences to provide comprehensive and personalized care.</p>
             <div className="md:mt-8 mt-4">
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8 flex flex-col">
-                        <FormField
-                            control={form.control}
-                            name="full_name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Full Name</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Adio Aina" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="date_of_birth"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col gap-2">
-                                    <FormLabel>Date of birth</FormLabel>
-                                    <FormControl>
-                                        <Input type="date" placeholder="Select your date of birth" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="gender"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Gender</FormLabel>
-                                    <FormControl>
-                                        <Select {...field} onValueChange={field.onChange}>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select your gender" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {[
-                                                        { value: "M", label: "Male" },
-                                                        { value: "F", label: "Female" },
-                                                        { value: "O", label: "Other" },
-                                                    ].map((option) => (
-                                                        <SelectItem key={option.value} value={option.value}>
-                                                            {option.label}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <div className="items-center flex gap-4 flex-row">
-                            <Button variant="outline" type="button" className="mt-8 w-full" onClick={() => setCurrentStep("2")}>
-                                Back
-                            </Button>
-                            <Button type="submit" className="mt-8 w-full">
-                                Continue
-                            </Button>
-                        </div>
-                    </form>
-                    <p className="text-sm mt-4 text-primary font-semibold">Step 0{currentStep}/03</p>
-                </Form>
+                <AutoForm formSchema={step3Schema} onSubmit={onSubmit} values={step3}>
+                    <div className="items-center flex gap-4 flex-row">
+                        <Button variant="outline" type="button" className="mt-8 w-full" onClick={() => setCurrentStep("2")}>
+                            Back
+                        </Button>
+                        <Button type="submit" className="w-full mt-8">
+                            Complete
+                        </Button>
+                    </div>
+                    <p className="text-sm mt-4 text-primary font-semibold">Step 03/03</p>
+                </AutoForm>
             </div>
         </div>
     );

@@ -3,6 +3,9 @@ import { z } from "zod";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 
+// Ethnicity enum
+export const ethnicityEnum = z.enum(["WHITE", "BLACK_OR_AFRICAN_AMERICAN", "HISPANIC_OR_LATINO", "ASIAN", "NATIVE_AMERICAN_OR_ALASKA_NATIVE", "NATIVE_HAWAIIAN_OR_OTHER_PACIFIC_ISLANDER", "OTHER"]);
+
 // Step 1 Schema
 export const step1Schema = z.object({
     full_name: z.string().min(2, { message: "Full name must be at least 2 characters long" }).max(255, { message: "Full name must be at most 255 characters long" }),
@@ -31,31 +34,100 @@ export const step2Schema = z.object({
 export const step3Schema = z.object({
     major_illnesses: z.array(
         z.object({
-            name: z.string().min(1, { message: "Illness name is required" }),
-            period: z.string().refine((date) => !isNaN(Date.parse(date)), { message: "Invalid date format" }),
-        })
+            name: z
+                .string({
+                    required_error: "Illness name is required",
+                })
+                .min(1, { message: "Illness name is required" })
+                .describe("Name of the major illness"),
+            period: z.coerce.date().refine((date) => !isNaN(date.getTime()), { message: "Invalid date format" }),
+        }),
+        { description: "Major Illness" }
     ),
     surgeries: z.array(
         z.object({
-            name: z.string().min(1, { message: "Surgery name is required" }),
-            period: z.string().refine((date) => !isNaN(Date.parse(date)), { message: "Invalid date format" }),
+            name: z
+                .string({
+                    required_error: "Surgery name is required",
+                })
+                .min(1, { message: "Surgery name is required" })
+                .describe("Name of the surgery"),
+            period: z.coerce.date().refine((date) => !isNaN(date.getTime()), { message: "Invalid date format" }),
         })
     ),
-    allergies: z.array(z.string().min(1, { message: "Allergy is required" })),
-    family_medical_history: z.array(z.string().min(1, { message: "Family medical history item is required" })),
-    current_medications: z.array(z.string().min(1, { message: "Medication is required" })),
-    insurance_information: z.object({
-        provider: z.string().min(1, { message: "Provider is required" }),
-        policy_number: z.string().min(1, { message: "Policy number is required" }),
-        group_number: z.string().min(1, { message: "Group number is required" }),
-    }),
+    allergies: z.array(
+        z.object({
+            name: z
+                .string({
+                    required_error: "Allergy name is required",
+                })
+                .min(1, { message: "Allergy name is required" })
+                .describe("Name of the allergy"),
+            reaction: z.string().min(1, { message: "Reaction is required" }),
+        })
+    ),
+    family_medical_history: z.array(
+        z.object({
+            name: z
+                .string({
+                    required_error: "Family member name is required",
+                })
+                .min(1, { message: "Family member name is required" })
+                .describe("Name of the family member"),
+            illness: z.string().min(1, { message: "Illness is required" }),
+            relationship: z.string().min(1, { message: "Relationship is required" }),
+        }),
+        {
+            description: "Family Medical History",
+        }
+    ),
+    current_medications: z.array(
+        z.object({
+            name: z
+                .string({
+                    required_error: "Medication name is required",
+                })
+                .min(1, { message: "Medication name is required" })
+                .describe("Name of the medication")
+                .default("Aspirin"),
+            dosage: z.string().min(1, { message: "Dosage is required" }).default("100mg"),
+            frequency: z.string().min(1, { message: "Frequency is required" }).default("Once daily"),
+        }),
+        {
+            description: "Current Medications",
+        }
+    ),
+    insurance_information: z.object(
+        {
+            provider: z.string().min(1, { message: "Provider is required" }).default("Blue Cross Blue Shield"),
+            policy_number: z.string().min(1, { message: "Policy number is required" }).default("123456789"),
+            group_number: z.string().min(1, { message: "Group number is required" }).default("987654321"),
+        },
+        { required_error: "Insurance Information is required", description: "Insurance Information" }
+    ),
     preferences: z.object({
-        languages: z.array(z.string().min(1, { message: "Language is required" })),
-        communication_preferences: z.array(z.enum(["Email", "Phone"], { message: "Invalid communication preference" })),
-        accessibility_needs: z.array(z.string().min(1, { message: "Accessibility need is required" })),
+        languages: z.array(
+            z.object({
+                language: z.enum(["English", "Spanish", "French", "German", "Chinese", "Japanese", "Korean", "Arabic"], { message: "Invalid language" }).default("English"),
+                proficiency: z.enum(["Basic", "Intermediate", "Advanced"], { message: "Invalid proficiency" }).default("Basic"),
+            }),
+            { message: "Invalid language" }
+        ),
+        communication_preferences: z.array(
+            z.object({
+                preference: z.enum(["Email", "Phone", "SMS", "Mail"], { message: "Invalid communication preference" }).default("Email"),
+            }),
+            { message: "Invalid communication preference" }
+        ),
+        accessibility_needs: z.array(
+            z.object({
+                need: z.enum(["Wheelchair", "Cane", "Walker", "Hearing Aid", "Service Animal", "Other"], { message: "Invalid accessibility need" }).default("Wheelchair"),
+            }),
+            { message: "Invalid accessibility need" }
+        ),
     }),
-    occupation: z.string().min(1, { message: "Occupation is required" }),
-    ethnicity: z.string().min(1, { message: "Ethnicity is required" }),
+    occupation: z.string().min(1, { message: "Occupation is required" }).default("Engineer"),
+    ethnicity: ethnicityEnum.default("WHITE"),
 });
 
 // Define types
@@ -80,15 +152,34 @@ const initialStep2Data: Step2Data = {
 
 const initialStep3Data: Step3Data = {
     major_illnesses: [
-        { name: "Hypertension", period: "2010-01-01" },
-        { name: "Type 2 Diabetes", period: "2015-06-01" },
+        { name: "Diabetes", period: new Date("2010-01-01") },
+        { name: "Hypertension", period: new Date("2015-01-01") },
     ],
-    surgeries: [{ name: "Appendectomy", period: "2012-08-15" }],
-    allergies: ["Penicillin", "Pollen"],
-    family_medical_history: ["Heart disease", "Cancer"],
-    current_medications: ["Lisinopril", "Metformin"],
-    insurance_information: { provider: "ABC Insurance", policy_number: "POL987654321", group_number: "GRP123456789" },
-    preferences: { languages: ["English", "Spanish"], communication_preferences: ["Email", "Phone"], accessibility_needs: ["Wheelchair access"] },
+    surgeries: [
+        { name: "Appendectomy", period: new Date("2012-01-01") },
+        { name: "Knee Replacement", period: new Date("2018-01-01") },
+    ],
+    allergies: [
+        { name: "Penicillin", reaction: "Rash" },
+        { name: "Peanuts", reaction: "Anaphylaxis" },
+    ],
+    family_medical_history: [
+        { name: "John Doe", illness: "Diabetes", relationship: "Father" },
+        { name: "Jane Doe", illness: "Hypertension", relationship: "Mother" },
+    ],
+    current_medications: [
+        { name: "Aspirin", dosage: "100mg", frequency: "Once daily" },
+        { name: "Lisinopril", dosage: "10mg", frequency: "Twice daily" },
+    ],
+    insurance_information: { provider: "Blue Cross Blue Shield", policy_number: "123456789", group_number: "987654321" },
+    preferences: {
+        languages: [
+            { language: "English", proficiency: "Basic" },
+            { language: "Spanish", proficiency: "Intermediate" },
+        ],
+        communication_preferences: [{ preference: "Email" }, { preference: "Phone" }],
+        accessibility_needs: [{ need: "Wheelchair" }, { need: "Hearing Aid" }],
+    },
     occupation: "Engineer",
     ethnicity: "WHITE",
 };
