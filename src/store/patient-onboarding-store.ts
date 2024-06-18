@@ -1,16 +1,17 @@
 import { create } from "zustand";
 import { z } from "zod";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 
 // Step 1 Schema
-const stepOneSchema = z.object({
+export const stepOneSchema = z.object({
     full_name: z.string().min(2, { message: "Full name must be at least 2 characters long" }).max(255, { message: "Full name must be at most 255 characters long" }),
     date_of_birth: z.string().refine((date) => !isNaN(Date.parse(date)), { message: "Invalid date format" }),
     gender: z.enum(["M", "F", "O"], { message: "Please select a valid gender" }),
 });
 
 // Step 2 Schema
-const stepTwoSchema = z.object({
+export const stepTwoSchema = z.object({
     phone_number: z.object({
         code: z.string().min(1, { message: "Country code is required" }),
         number: z.string().min(7, { message: "Phone number must be at least 7 digits long" }),
@@ -30,7 +31,7 @@ const stepTwoSchema = z.object({
 });
 
 // Step 3 Schema
-const stepThreeSchema = z.object({
+export const stepThreeSchema = z.object({
     major_illnesses: z.array(
         z.object({
             name: z.string().min(1, { message: "Illness name is required" }),
@@ -61,9 +62,9 @@ const stepThreeSchema = z.object({
 });
 
 // Define types
-type StepOneData = z.infer<typeof stepOneSchema>;
-type StepTwoData = z.infer<typeof stepTwoSchema>;
-type StepThreeData = z.infer<typeof stepThreeSchema>;
+export type StepOneData = z.infer<typeof stepOneSchema>;
+export type StepTwoData = z.infer<typeof stepTwoSchema>;
+export type StepThreeData = z.infer<typeof stepThreeSchema>;
 
 type StepData = { step: 1; data: Partial<StepOneData> } | { step: 2; data: Partial<StepTwoData> } | { step: 3; data: Partial<StepThreeData> };
 
@@ -95,7 +96,6 @@ const initialStepThreeData: StepThreeData = {
     ethnicity: "WHITE",
 };
 
-// Zustand Store
 export const usePatientOnboardingStore = create<{
     stepOne: StepOneData;
     stepTwo: StepTwoData;
@@ -130,6 +130,6 @@ export const usePatientOnboardingStore = create<{
     )
 );
 
-const toExport = { usePatientOnboardingStore, patientOnboardingStep1Schema: stepOneSchema, patientOnboardingStep2Schema: stepTwoSchema, patientOnboardingStep3Schema: stepThreeSchema };
-
-export default toExport;
+export function usePatientOnboardingStep() {
+    return useQueryState("step", parseAsStringLiteral(["1", "2", "3"]).withDefault("1"));
+}
