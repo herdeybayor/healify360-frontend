@@ -32,8 +32,6 @@ export default function CustomCarousel({
         loop: true,
       }}>
       <CarouselContent className={className}>{children}</CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
     </Carousel>
   );
 }

@@ -137,34 +137,73 @@ export default function Home() {
           </div>
         </div>
         <div className='max-w-[1400px] mx-auto py-11 px-4'>
-          <div className='flex'>
+          <div className='flex rounded-lg overflow-hidden'>
             <div className='flex-1'>
-              <CustomCarousel
-                className='flex-col h-40'
-                opts={{
-                  orientation: 'vertical',
-                }}>
-                <CarouselItem>
-                  <p>1st</p>
+              <CustomCarousel className='h-[464px]'>
+                <CarouselItem className='bg-[#0DFD50] h-full'>
+                  <div>
+                    <h3>
+                      I couldn't be happier with the care I received. The
+                      doctors were knowledgeable and attentive.
+                    </h3>
+                    <p>— Hilda Baci</p>
+                    Chef, Hilda’s Kitchen
+                  </div>
                 </CarouselItem>
-                <CarouselItem>
-                  <p>2nd</p>
+                <CarouselItem className='bg-[#0DFD50] h-full'>
+                  <div>
+                    <h3>
+                      I couldn't be happier with the care I received. The
+                      doctors were knowledgeable and attentive.
+                    </h3>
+                    <p>— Hilda Baci</p>
+                    Chef, Hilda’s Kitchen
+                  </div>
                 </CarouselItem>
-                <CarouselItem>
-                  <p>3rd</p>
+                <CarouselItem className='bg-[#0DFD50] h-full'>
+                  <div>
+                    <h3>
+                      I couldn't be happier with the care I received. The
+                      doctors were knowledgeable and attentive.
+                    </h3>
+                    <p>— Hilda Baci</p>
+                    Chef, Hilda’s Kitchen
+                  </div>
                 </CarouselItem>
               </CustomCarousel>
             </div>
             <div>
-              <CustomCarousel>
+              <CustomCarousel
+                className='flex-col h-[464px]'
+                opts={{
+                  orientation: 'vertical',
+                }}>
                 <CarouselItem>
-                  <p>1st</p>
+                  <Image
+                    src='/nurse.png'
+                    className='rounded-md'
+                    alt=''
+                    height={464}
+                    width={480}
+                  />
                 </CarouselItem>
                 <CarouselItem>
-                  <p>2nd</p>
+                  <Image
+                    src='/mercy-awo.png'
+                    className='rounded-md'
+                    alt=''
+                    height={464}
+                    width={480}
+                  />
                 </CarouselItem>
                 <CarouselItem>
-                  <p>3rd</p>
+                  <Image
+                    src='/tunde-awokoya.png'
+                    className='rounded-md'
+                    alt=''
+                    height={464}
+                    width={480}
+                  />
                 </CarouselItem>
               </CustomCarousel>
             </div>
