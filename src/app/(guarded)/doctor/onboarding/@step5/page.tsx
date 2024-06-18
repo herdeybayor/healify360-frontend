@@ -2,17 +2,38 @@
 
 import AutoForm from "@/components/custom/auto-form";
 import { Button } from "@/components/ui/button";
+import { DoctorProfileCreate } from "@/http";
 import { Step5Data, step5Schema, useDoctorOnboardingStep, useDoctorOnboardingStore } from "@/store/doctor-onbording-store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import { toast } from "sonner";
 
 function DoctorOnboarding2() {
+    const router = useRouter();
+    const queryClient = useQueryClient();
     const { step1, step2, step3, step4, step5, setData } = useDoctorOnboardingStore();
     const [_, setCurrentStep] = useDoctorOnboardingStep();
+
+    const { mutateAsync: createProfile, isPending: isCreatingProfile } = useMutation({
+        mutationFn: DoctorProfileCreate,
+        onSuccess() {
+            router.push("/doctor");
+            queryClient.invalidateQueries({
+                queryKey: ["auth-session"],
+            });
+        },
+    });
 
     const onSubmit = useCallback(
         (data: Step5Data) => {
             setData({ step: 5, data });
-            console.log({ ...step1, ...step2, ...step3, ...step4, ...step5 });
+            const payload = { ...step1, ...step2, ...step3, ...step4, ...step5 };
+            toast.promise(createProfile(payload), {
+                loading: "Saving...",
+                success: "Profile created successfully",
+                error: (error) => error.response?.data.message || "An error occurred",
+            });
         },
         [setData, step1, step2, step3, step4, step5]
     );
