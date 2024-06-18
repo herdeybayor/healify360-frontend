@@ -80,7 +80,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className='max-w-[1400px] mx-auto py-4'>
+        <div className='max-w-[1400px] mx-auto py-4 px-4'>
           <h3 className='font-semibold text-base text-[#00AC30]'>Features</h3>
           <h1 className='lg:text-5xl text-lg md:text-3xl font-semibold mt-4 max-w-[760px]'>
             Transforming Healthcare with Innovative Solutions
@@ -92,7 +92,7 @@ export default function Home() {
             to a network of partner hospitals.
           </p>
         </div>
-        <div className='md:mt-12 mt-6'>
+        <div className='md:mt-12 mt-6 relative'>
           <div className='max-w-[1400px] mx-auto md:grid grid-cols-2'>
             <div>
               <div className='py-4'>
@@ -119,9 +119,9 @@ export default function Home() {
             </div>
             <div>
               <Image
-                src='/doctor-dashboard.png'
+                src='/patient-select-time.png'
                 width={760}
-                height={483}
+                height={660}
                 className='aspect-video'
                 alt=''
               />
