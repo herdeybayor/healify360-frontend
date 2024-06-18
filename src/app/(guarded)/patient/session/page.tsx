@@ -5,7 +5,7 @@ function SessionsPage() {
     return (
         <div>
             <h1 className="font-semibold text-2xl mb-4">Sessions</h1>
-            <Tabs defaultValue="all">
+            <Tabs defaultValue="upcoming">
                 <TabsList className="grid w-full grid-cols-3">
                     <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
                     <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
