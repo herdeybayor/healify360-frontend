@@ -7,6 +7,7 @@ interface IUser {
     last_name: string;
     email: string;
     role: string;
+    is_onboarding_complete?: boolean;
     created_at: string;
     updated_at: string;
     __v: number;

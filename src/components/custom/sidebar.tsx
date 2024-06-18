@@ -2,54 +2,73 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import DashboardIcon from "../icons/DashboardIcon";
-import ExploreIcon from "../icons/ExploreIcon";
-import MessageIcon from "../icons/MessageIcon";
-import VideoCallIcon from "../icons/VideoCallIcon";
 import Logo from "./logo";
-
-const routes = [
-    {
-        label: "Dashboard",
-        url: "/patients",
-        icon: <DashboardIcon />,
-    },
-    {
-        label: "Explore",
-        url: "/patients/explore",
-        icon: <ExploreIcon />,
-    },
-    {
-        label: "Book Session",
-        url: "/patients/session",
-        icon: <VideoCallIcon />,
-    },
-    {
-        label: "Message",
-        url: "/patients/message",
-        icon: <MessageIcon />,
-    },
-];
+import { FileClock, Home, LayoutDashboard, MessageCircle, Video } from "lucide-react";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { useCallback, useMemo } from "react";
+import useUser from "@/hooks/use-user";
 
 export default function SideBar() {
     const pathname = usePathname();
 
-    const isActive = function (href: string) {
-        if (pathname === href) return true;
-        else return false;
-    };
+    const { user } = useUser();
+
+    const routes = useMemo(
+        () => [
+            {
+                label: "Dashboard",
+                url: "/patient",
+                icon: <Home />,
+            },
+            ...(user?.is_onboarding_complete === false
+                ? [
+                      {
+                          label: "Onboarding",
+                          url: "/patients/onboarding",
+                          icon: <FileClock />,
+                      },
+                  ]
+                : []),
+            {
+                label: "Explore",
+                url: "/patients/explore",
+                icon: <LayoutDashboard />,
+            },
+            {
+                label: "Book Session",
+                url: "/patients/session",
+                icon: <Video />,
+            },
+            {
+                label: "Message",
+                url: "/patients/message",
+                icon: <MessageCircle />,
+            },
+        ],
+        [user]
+    );
+
+    const isActive = useCallback(
+        (url: string) => {
+            return pathname === url;
+        },
+        [pathname]
+    );
 
     return (
         <div className="p-4">
             <Logo href="/patients" className="hidden md:block" />
 
-            <ul className="space-y-3 hidden md:block">
+            <ul className="flex-col p-4 gap-4 hidden md:flex">
                 {routes.map((item, index) => {
                     return (
-                        <li key={index} className={`flex items-center space-x-3 py-2 px-3 rounded-lg  ${isActive(item.url) ? "bg-[#00AC30] text-white" : "text-black"}`}>
-                            {item.icon}
-                            <Link href={item.url}>{item.label}</Link>
-                        </li>
+                        <Button key={index} asChild variant={isActive(item.url) ? "default" : "ghost"} className={"justify-start"}>
+                            <Link href={item.url} className="flex items-center gap-3">
+                                {item.icon}
+                                <span>{item.label}</span>
+                            </Link>
+                        </Button>
                     );
                 })}
             </ul>
