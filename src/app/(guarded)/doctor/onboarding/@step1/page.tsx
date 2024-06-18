@@ -2,24 +2,24 @@
 
 import AutoForm from "@/components/custom/auto-form";
 import { Button } from "@/components/ui/button";
-import { Step1Data, step1Schema, useDoctorOnboardingStore } from "@/store/doctor-onbording-store";
+import { Step1Data, step1Schema, useDoctorOnboardingStep, useDoctorOnboardingStore } from "@/store/doctor-onbording-store";
 import { useCallback } from "react";
 
-function PatientOnboarding3() {
+function DoctorOnboarding1() {
     const { step1, setData } = useDoctorOnboardingStore();
+    const [_, setCurrentStep] = useDoctorOnboardingStep();
 
     const onSubmit = useCallback(
         (data: Step1Data) => {
             setData({ step: 1, data });
-
-            console.log(data);
+            setCurrentStep("2");
         },
         [setData]
     );
     return (
         <div className="max-w-md">
-            <h1 className="font-semibold text-2xl">Medical History and Preferences</h1>
-            <p className="mt-4 text-muted-foreground">Gathering the patient&apos;s medical history and preferences to provide comprehensive and personalized care.</p>
+            <h1 className="font-semibold text-2xl">Doctor's Basic Information</h1>
+            <p className="mt-4 text-muted-foreground">Let's get started with some basic information about you.</p>
             <div className="md:mt-8 mt-4">
                 <AutoForm formSchema={step1Schema} onSubmit={onSubmit} values={step1}>
                     <div className="items-center flex gap-4 flex-row">
@@ -34,4 +34,4 @@ function PatientOnboarding3() {
     );
 }
 
-export default PatientOnboarding3;
+export default DoctorOnboarding1;

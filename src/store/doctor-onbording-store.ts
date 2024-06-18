@@ -111,16 +111,28 @@ export const step1Schema = z.object({
 });
 
 export const step2Schema = z.object({
-    phone_number: z.object({
-        code: z.string().min(1, { message: "Country code is required" }),
-        number: z.string().min(7, { message: "Phone number must be at least 7 digits long" }),
-    }),
-    home_address: z.object({
-        city: z.string().min(1, { message: "City is required" }),
-        state: z.string().min(1, { message: "State is required" }),
-        street: z.string().min(1, { message: "Street is required" }),
-        country: z.string().min(1, { message: "Country is required" }),
-    }),
+    phone_number: z.object(
+        {
+            code: z.string().min(1, { message: "Country code is required" }),
+            number: z.string().min(7, { message: "Phone number must be at least 7 digits long" }),
+        },
+        {
+            required_error: "Phone number is required",
+            description: "Phone number",
+        }
+    ),
+    home_address: z.object(
+        {
+            street: z.string().min(1, { message: "Street is required" }),
+            city: z.string().min(1, { message: "City is required" }),
+            state: z.string().min(1, { message: "State is required" }),
+            country: z.string().min(1, { message: "Country is required" }),
+        },
+        {
+            required_error: "Home address is required",
+            description: "Home address",
+        }
+    ),
 });
 
 export const step3Schema = z.object({
