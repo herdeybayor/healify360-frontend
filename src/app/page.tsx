@@ -1,3 +1,4 @@
+import CustomCarousel from '@/components/custom/CustomCarousel';
 import Logo from '@/components/custom/logo';
 import MenuIcon from '@/components/icons/MenuIcon';
 import { Button } from '@/components/ui/button';
@@ -12,7 +13,6 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Autoplay from 'embla-carousel-autoplay';
 
 const routes = ['About Us', 'Services', 'How It Works', 'Contact Us'];
 
@@ -136,31 +136,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className='max-w-[1400px] mx-auto py-11 px-4'>
-          <Carousel
-            plugins={[
-              Autoplay({
-                delay: 2000,
-              }),
-            ]}
-            opts={{
-              loop: true,
-            }}>
-            <CarouselContent>
-              <CarouselItem>
-                <p>1ST</p>
-              </CarouselItem>
-              <CarouselItem>
-                <p>2ND</p>
-              </CarouselItem>
-              <CarouselItem>
-                <p>3RD</p>
-              </CarouselItem>
-            </CarouselContent>
-            <CarouselNext />
-            <CarouselPrevious />
-          </Carousel>
-        </div>
+        <div className='max-w-[1400px] mx-auto py-11 px-4'></div>
       </main>
     </div>
   );
