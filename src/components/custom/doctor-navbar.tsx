@@ -17,22 +17,27 @@ import useUser from "@/hooks/use-user";
 import { setCookie } from "cookies-next";
 import { ChevronDown, LifeBuoy, LogOut, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "../ui/skeleton";
 
 function DoctorNavbar() {
     const router = useRouter();
 
-    const { user } = useUser();
+    const { user, isPending: loadingUser } = useUser();
     return (
         <nav className="flex items-center lg:px-11 lg:py-6 lg:space-x-6 justify-end border-b border-gray-200">
             <div className="hidden lg:flex items-center space-x-6">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button className="flex items-center space-x-2" variant="ghost" title="My Account">
-                            <span className="font-medium">{user ? `${user.first_name} ${user.last_name}` : "-"}</span>
-                            <Avatar>
-                                <AvatarImage src="" alt="user avatar" />
-                                <AvatarFallback>{user ? `${user.first_name[0]}${user.last_name[0]}` : "-"}</AvatarFallback>
-                            </Avatar>
+                            {loadingUser ? <Skeleton className="h-8 w-32" /> : <span className="font-medium">{user ? `${user.first_name} ${user.last_name}` : "-"}</span>}
+                            {loadingUser ? (
+                                <Skeleton className="h-10 w-10 rounded-full" />
+                            ) : (
+                                <Avatar>
+                                    <AvatarImage src="" alt="user avatar" />
+                                    <AvatarFallback>{user ? `${user.first_name[0]}${user.last_name[0]}` : "-"}</AvatarFallback>
+                                </Avatar>
+                            )}
                             <ChevronDown className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>

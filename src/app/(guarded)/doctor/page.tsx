@@ -1,13 +1,14 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import useUser from "@/hooks/use-user";
 import React from "react";
 
 function DoctorsDashboard() {
-    const { user } = useUser();
+    const { user, isPending: loadingUser } = useUser();
     return (
         <div>
-            <h1 className="text-2xl font-semibold">Welcome {user?.first_name} 🔥,</h1>
+            {loadingUser ? <Skeleton className="h-8 w-32" /> : <h1 className="text-2xl font-semibold">Welcome {user?.first_name} 🔥,</h1>}
             <p className="text-gray-600">Track, and manage your patients.</p>
 
             <div className="mt-8 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8">
