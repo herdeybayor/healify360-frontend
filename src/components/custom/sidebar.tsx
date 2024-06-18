@@ -29,22 +29,23 @@ export default function SideBar() {
                           icon: <FileClock />,
                       },
                   ]
-                : []),
-            {
-                label: "Explore",
-                url: "/patient/explore",
-                icon: <LayoutDashboard />,
-            },
-            {
-                label: "Book Session",
-                url: "/patient/session",
-                icon: <Video />,
-            },
-            {
-                label: "Message",
-                url: "/patient/message",
-                icon: <MessageCircle />,
-            },
+                : [
+                      {
+                          label: "Explore",
+                          url: "/patient/explore",
+                          icon: <LayoutDashboard />,
+                      },
+                      {
+                          label: "Book Session",
+                          url: "/patient/session",
+                          icon: <Video />,
+                      },
+                      {
+                          label: "Message",
+                          url: "/patient/message",
+                          icon: <MessageCircle />,
+                      },
+                  ]),
         ],
         [user]
     );
