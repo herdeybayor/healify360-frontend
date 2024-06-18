@@ -176,18 +176,50 @@ export const step4Schema = z.object({
             description: "State of licensure",
         }
     ),
-    malpractice_insurance_details: z.object({
-        provider: z.string().min(1, { message: "Provider is required" }),
-        policy_number: z.string().min(1, { message: "Policy number is required" }),
-        coverage_amount_in_dollars: z.number().positive({ message: "Coverage amount must be a positive number" }),
-    }),
+    malpractice_insurance_details: z.object(
+        {
+            provider: z.string().min(1, { message: "Provider is required" }),
+            policy_number: z
+                .string({
+                    required_error: "Policy number is required",
+                    description: "Policy number",
+                })
+                .min(1, { message: "Policy number is required" }),
+            coverage_amount_in_dollars: z
+                .number({
+                    required_error: "Coverage amount is required",
+                    description: "Coverage amount",
+                })
+                .positive({ message: "Coverage amount must be a positive number" }),
+        },
+        {
+            required_error: "Malpractice insurance details are required",
+            description: "Malpractice insurance details",
+        }
+    ),
 });
 
 export const step5Schema = z.object({
-    services_provided: z.object({
-        procedures: z.array(z.string().min(1, { message: "Procedure is required" })),
-        conditions_treated: z.array(z.string().min(1, { message: "Condition is required" })),
-    }),
+    services_provided: z.object(
+        {
+            procedures: z.array(
+                z.object({
+                    title: z.string().min(1, { message: "Procedure title is required" }),
+                    description: z.string().min(1, { message: "Procedure description is required" }),
+                })
+            ),
+            conditions_treated: z.array(
+                z.object({
+                    title: z.string().min(1, { message: "Condition title is required" }),
+                    description: z.string().min(1, { message: "Condition description is required" }),
+                })
+            ),
+        },
+        {
+            required_error: "Services provided are required",
+            description: "Services provided",
+        }
+    ),
     awards: z.array(
         z.object({
             title: z.string().min(1, { message: "Award title is required" }),
@@ -243,8 +275,8 @@ const initialStep4Data: Step4Data = {
 
 const initialStep5Data: Step5Data = {
     services_provided: {
-        procedures: ["Angioplasty", "Stent Placement"],
-        conditions_treated: ["Heart Disease", "Hypertension"],
+        procedures: [{ title: "Angioplasty", description: "Procedure to open blocked arteries" }],
+        conditions_treated: [{ title: "Heart Disease", description: "Condition affecting the heart" }],
     },
     awards: [{ title: "Best Doctor Award", year: 2015 }],
     publication: [{ title: "Research on Cardiology", year: 2010 }],
