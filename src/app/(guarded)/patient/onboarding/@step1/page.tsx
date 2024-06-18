@@ -26,76 +26,80 @@ function PatientOnboarding2() {
         [setData, setCurrentStep]
     );
     return (
-        <div>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8 flex flex-col">
-                    <FormField
-                        control={form.control}
-                        name="full_name"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Full Name</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Adio Aina" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+        <div className="max-w-md">
+            <h1 className="font-semibold text-2xl">Let&apos;s get you started</h1>
+            <p className="mt-4 text-muted-foreground">Onboarding a patient involves collecting information to ensure their medical care is personalized and effective.</p>
+            <div className="md:mt-8 mt-4">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8 flex flex-col">
+                        <FormField
+                            control={form.control}
+                            name="full_name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Full Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Adio Aina" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="date_of_birth"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-col gap-2">
-                                <FormLabel>Date of birth</FormLabel>
-                                <FormControl>
-                                    <Input type="date" placeholder="Select your date of birth" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                        <FormField
+                            control={form.control}
+                            name="date_of_birth"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col gap-2">
+                                    <FormLabel>Date of birth</FormLabel>
+                                    <FormControl>
+                                        <Input type="date" placeholder="Select your date of birth" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="gender"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Gender</FormLabel>
-                                <FormControl>
-                                    <Select {...field} onValueChange={field.onChange}>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select your gender" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {[
-                                                    { value: "M", label: "Male" },
-                                                    { value: "F", label: "Female" },
-                                                    { value: "O", label: "Other" },
-                                                ].map((option) => (
-                                                    <SelectItem key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                        <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Gender</FormLabel>
+                                    <FormControl>
+                                        <Select {...field} onValueChange={field.onChange}>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select your gender" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {[
+                                                        { value: "M", label: "Male" },
+                                                        { value: "F", label: "Female" },
+                                                        { value: "O", label: "Other" },
+                                                    ].map((option) => (
+                                                        <SelectItem key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <div>
-                        <Button type="submit" className="mt-8 w-full">
-                            Submit &rarr;
-                        </Button>
-                    </div>
-                </form>
-                <p className="text-sm mt-4 text-primary font-semibold">Step 0{currentStep}/03</p>
-            </Form>
+                        <div>
+                            <Button type="submit" className="mt-8 w-full">
+                                Continue
+                            </Button>
+                        </div>
+                    </form>
+                    <p className="text-sm mt-4 text-primary font-semibold">Step 0{currentStep}/03</p>
+                </Form>
+            </div>
         </div>
     );
 }
