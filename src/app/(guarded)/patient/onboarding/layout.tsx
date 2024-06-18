@@ -2,7 +2,7 @@
 
 import { usePatientOnboardingStep } from "@/store/patient-onboarding-store";
 import Image from "next/image";
-import { type ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 
 function OnboardingLayout({ step1, step2, step3 }: { children: ReactNode; step1: React.ReactNode; step2: React.ReactNode; step3: React.ReactNode }) {
     const [currentStep] = usePatientOnboardingStep();
@@ -20,4 +20,10 @@ function OnboardingLayout({ step1, step2, step3 }: { children: ReactNode; step1:
     );
 }
 
-export default OnboardingLayout;
+export default function OnboardingLayoutSuspense(props: any) {
+    return (
+        <Suspense>
+            <OnboardingLayout {...props} />
+        </Suspense>
+    );
+}
