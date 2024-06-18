@@ -75,7 +75,7 @@ const EDUCATION_TYPES = {
     },
 } as const;
 
-const SPECIALIZATION = {
+export const SPECIALIZATION = {
     Cardiology: ["Interventional Cardiology", "Electrophysiology", "Heart Failure & Transplantation", "Preventive Cardiology", "Nuclear Cardiology"],
     Dermatology: ["Pediatric Dermatology", "Dermatopathology", "Mohs Surgery", "Cosmetic Dermatology"],
     Endocrinology: ["Diabetes", "Thyroid Disorders", "Bone and Mineral Metabolism", "Endocrine Oncology", "Pediatric Endocrinology"],
@@ -145,8 +145,13 @@ export const step3Schema = z.object({
             degree: z.enum(EDUCATION_ENUM_VALUES as [string], { message: "Invalid degree" }),
         })
     ),
-    specialization: z.enum(SPECIALIZATION_ENUM_VALUES, { message: "Invalid specialization" }),
-    sub_specialization: z.string().min(1, { message: "Sub-specialization is required" }),
+    specialization: z.enum(SPECIALIZATION_ENUM_VALUES, { message: "Invalid specialization", description: "Specialization", required_error: "Specialization is required" }),
+    sub_specialization: z
+        .string({
+            required_error: "Sub-specialization is required",
+            description: "Sub-specialization",
+        })
+        .min(1, { message: "Sub-specialization is required" }),
 });
 
 export const step4Schema = z.object({
