@@ -24,12 +24,26 @@ import { StateProps, type CountryProps } from "./types";
 import { useDropdownStore } from "./dropdown-store";
 
 interface CountryDropdownProps {
+    onSelected?: (value: string) => void;
+    value?: string;
     disabled?: boolean;
 }
 
-export const CountryDropdown = ({ disabled }: CountryDropdownProps) => {
+export const CountryDropdown = ({ disabled, value, onSelected }: CountryDropdownProps) => {
     const { countryValue, setCountryValue, openCountryDropdown, setOpenCountryDropdown } = useDropdownStore();
     const C = countries as CountryProps[];
+
+    React.useEffect(() => {
+        if (value) {
+            setCountryValue(value);
+        }
+    }, [value, setCountryValue]);
+
+    React.useEffect(() => {
+        if (onSelected) {
+            onSelected(countryValue);
+        }
+    }, [countryValue, onSelected]);
 
     return (
         <Popover open={openCountryDropdown} onOpenChange={setOpenCountryDropdown}>
@@ -86,11 +100,28 @@ export const CountryDropdown = ({ disabled }: CountryDropdownProps) => {
     );
 };
 
-export const StateDropdown = () => {
+interface StateDropdownProps {
+    onSelected?: (value: string) => void;
+    value?: string;
+}
+
+export const StateDropdown = ({ value, onSelected }: StateDropdownProps) => {
     const { countryValue, stateValue, openStateDropdown, setOpenStateDropdown, setStateValue } = useDropdownStore();
 
     const SD = states as StateProps[];
     const S = SD.filter((state) => state.country_name === sentenceCase(countryValue));
+
+    React.useEffect(() => {
+        if (value) {
+            setStateValue(value);
+        }
+    }, [value, setStateValue]);
+
+    React.useEffect(() => {
+        if (onSelected) {
+            onSelected(stateValue);
+        }
+    }, [stateValue, onSelected]);
 
     return (
         <Popover open={openStateDropdown} onOpenChange={setOpenStateDropdown}>
@@ -142,5 +173,3 @@ export const StateDropdown = () => {
         </Popover>
     );
 };
-
-export default StateDropdown;

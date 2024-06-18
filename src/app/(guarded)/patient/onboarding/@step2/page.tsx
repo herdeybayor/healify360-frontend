@@ -4,7 +4,6 @@ import { PhoneInput, getPhoneData } from "@/components/custom/phone-input";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Step2Data, step2Schema, usePatientOnboardingStep, usePatientOnboardingStore } from "@/store/patient-onboarding-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
@@ -21,9 +20,15 @@ function PatientOnboarding2() {
 
     const onSubmit = useCallback(
         (data: Step2Data) => {
-            const { isValid } = getPhoneData(data.phone_number);
-            if (!isValid) {
+            const { isValid: isPhoneNumberValid } = getPhoneData(data.phone_number);
+            if (!isPhoneNumberValid) {
                 form.setError("phone_number", { message: "Invalid phone number" });
+                return;
+            }
+
+            const { isValid: isEmergencyPhoneNumberValid } = getPhoneData(data.emergency_contact.phone);
+            if (!isEmergencyPhoneNumberValid) {
+                form.setError("emergency_contact.phone", { message: "Invalid phone number" });
                 return;
             }
             setData({ step: 2, data });
@@ -50,6 +55,128 @@ function PatientOnboarding2() {
                                             placeholder="+2348012345678"
                                             {...field}
                                         />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="home_address.street"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Street</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Street" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="home_address.city"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>City</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="City" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="home_address.state"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>State</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="State" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="home_address.country"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Country</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Country" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <h4 className="font-semibold text-lg">Emergency Contact</h4>
+
+                        <FormField
+                            control={form.control}
+                            name="emergency_contact.name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Contact Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Contact Name" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="emergency_contact.email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Email" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="emergency_contact.phone"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Phone Number</FormLabel>
+                                    <FormControl>
+                                        <PhoneInput
+                                            // breaker
+                                            placeholder="+2348012345678"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="emergency_contact.relationship"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Relationship</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Relationship" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

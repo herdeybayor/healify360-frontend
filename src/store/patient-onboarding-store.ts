@@ -124,7 +124,6 @@ export const usePatientOnboardingStore = create<{
         {
             name: "patient-onboarding-storage",
             storage: createJSONStorage(() => localStorage),
-            getStorage: () => localStorage,
         }
     )
 );
