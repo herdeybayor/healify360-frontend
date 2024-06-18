@@ -18,17 +18,17 @@ import { DateRange } from "react-day-picker";
 const routes = [
     {
         label: "Explore",
-        url: "/patients/explore",
+        url: "/patient/explore",
         icon: <ExploreIcon />,
     },
     {
         label: "Book Session",
-        url: "/patients/session",
+        url: "/patient/session",
         icon: <VideoCallIcon />,
     },
     {
         label: "Message",
-        url: "/patients/message",
+        url: "/patient/message",
         icon: <MessageIcon />,
     },
 ];

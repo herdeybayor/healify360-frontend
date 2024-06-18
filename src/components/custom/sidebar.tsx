@@ -59,7 +59,7 @@ export default function SideBar() {
 
     return (
         <div className="p-4">
-            <Logo href="/patients" className="hidden md:block" />
+            <Logo href="/patient" className="hidden md:block" />
 
             <ul className="flex-col p-4 gap-4 hidden md:flex">
                 {routes.map((item, index) => {
