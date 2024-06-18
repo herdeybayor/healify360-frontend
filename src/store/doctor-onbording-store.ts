@@ -101,6 +101,13 @@ export const step1Schema = z.object({
         })
         .min(2, { message: "Full name must be at least 2 characters long" })
         .max(255, { message: "Full name must be at most 255 characters long" }),
+    bio: z
+        .string({
+            required_error: "Bio is required",
+            description: "Bio",
+        })
+        .min(2, { message: "Bio must be at least 2 characters long" })
+        .max(400, { message: "Bio must be at most 255 characters long" }),
     date_of_birth: z.coerce
         .date({
             required_error: "Date of birth is required",
@@ -251,6 +258,7 @@ type StepData =
 // Initial data for each step
 const initialStep1Data: Step1Data = {
     full_name: "Dr. John Doe",
+    bio: "Cardiologist with 20 years of experience",
     date_of_birth: new Date("1970-01-01"),
     gender: "M",
 };

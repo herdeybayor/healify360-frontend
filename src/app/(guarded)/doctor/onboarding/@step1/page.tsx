@@ -21,7 +21,20 @@ function DoctorOnboarding1() {
             <h1 className="font-semibold text-2xl">Doctor&apos;s Basic Information</h1>
             <p className="mt-4 text-muted-foreground">Let&apos;s get started with some basic information about you.</p>
             <div className="md:mt-8 mt-4">
-                <AutoForm formSchema={step1Schema} onSubmit={onSubmit} values={step1}>
+                <AutoForm
+                    formSchema={step1Schema}
+                    onSubmit={onSubmit}
+                    values={step1}
+                    fieldConfig={{
+                        bio: {
+                            fieldType: "textarea",
+                            inputProps: {
+                                placeholder: "Write a short bio about yourself",
+                                rows: 4,
+                            } as any,
+                        },
+                    }}
+                >
                     <div className="items-center flex gap-4 flex-row">
                         <Button type="submit" className="w-full mt-8">
                             Complete
