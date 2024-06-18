@@ -1,17 +1,16 @@
 "use client";
+
 import BookButton from "@/components/custom/book-button";
-import BriefCaseIcon from "@/components/icons/BriefCaseIcon";
-import ExploreIcon from "@/components/icons/ExploreIcon";
-import GraduationHatIcon from "@/components/icons/GraduationHatIcon";
-import MessageIcon from "@/components/icons/MessageIcon";
-import VideoCallIcon from "@/components/icons/VideoCallIcon";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Skeleton } from "@/components/ui/skeleton";
 import useUser from "@/hooks/use-user";
-import { Info } from "lucide-react";
+import { DoctorFind } from "@/http";
+import { useQuery } from "@tanstack/react-query";
+import { Briefcase, GraduationCap, Info, LayoutDashboard, MessageCircle, Video } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -19,23 +18,57 @@ const routes = [
     {
         label: "Explore",
         url: "/patient/explore",
-        icon: <ExploreIcon />,
+        icon: <LayoutDashboard />,
     },
     {
         label: "Book Session",
         url: "/patient/session",
-        icon: <VideoCallIcon />,
+        icon: <Video />,
     },
     {
         label: "Message",
         url: "/patient/message",
-        icon: <MessageIcon />,
+        icon: <MessageCircle />,
     },
 ];
+
+function hashStringToSeed(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = (hash << 5) - hash + char;
+        hash |= 0; // Convert to 32-bit integer
+    }
+    return Math.abs(hash);
+}
+
+function seededRandom(seed: number) {
+    const a = 1664525;
+    const c = 1013904223;
+    const m = Math.pow(2, 32);
+    seed = (seed * a + c) % m;
+    return seed / m;
+}
+
+function generateRandomNumber(min: number, max: number, seed: string): number {
+    const seedNumber = hashStringToSeed(seed);
+    const randomValue = seededRandom(seedNumber);
+    return Math.floor(randomValue * (max - min + 1)) + min;
+}
+
+function generateImage(userId: string): string {
+    const num = generateRandomNumber(1, 999, userId).toString().padStart(3, "0");
+    return `https://ozgrozer.github.io/100k-faces/0/0/000${num}.jpg`;
+}
 
 export default function PatientDashboard() {
     const [date, setDate] = useState<undefined | DateRange>(undefined);
     const { user, isPending: loadingUser } = useUser();
+
+    const { data: doctorFindQuery, isPending: isFindingDoctor } = useQuery({
+        queryKey: ["find-doctors"],
+        queryFn: DoctorFind,
+    });
 
     return (
         <div className="">
@@ -66,33 +99,43 @@ export default function PatientDashboard() {
                     <div className="flex-1">
                         <div className="flex gap-5 md:gap-8 overflow overflow-y-auto">
                             {routes.map((route, index) => (
-                                <div key={index} className="flex flex-col gap-4 mb-3 md:mb-0 p-5 min-w-[170px] md:min-w-0 rounded-lg border w-full">
-                                    <div className="">{route.icon}</div>
-                                    <p className="text-base">{route.label}</p>
-                                </div>
+                                <Link href={route.url} key={index} className="w-full">
+                                    <div className="flex flex-col gap-4 mb-3 md:mb-0 p-5 min-w-[170px] md:min-w-0 rounded-lg border w-full">
+                                        {route.icon}
+                                        <p className="text-base text-muted-foreground">{route.label}</p>
+                                    </div>
+                                </Link>
                             ))}
                         </div>
                         <div className="mt-3 md:mt-5">
                             <h2>Top Rated Doctors</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:mt-6 mt-3 gap-4 justify-between">
-                                {Array.from({ length: 5 }).map((_, index) => (
+                                {isFindingDoctor && (
+                                    <>
+                                        <Skeleton className="h-52" />
+                                        <Skeleton className="h-52" />
+                                        <Skeleton className="h-52" />
+                                        <Skeleton className="h-52" />
+                                    </>
+                                )}
+                                {doctorFindQuery?.data?.doctors.map((doctor: any, index: any) => (
                                     <div key={index} className="border p-[14px] rounded-lg">
-                                        <Image src="/doctor.png" alt="" width={307} height={235} className="rounded-lg w-full" />
+                                        <Image src={generateImage(doctor._id)} alt="" width={307} height={235} className="rounded-lg w-full" />
                                         <div className="space-y-2 mt-2">
-                                            <p className="truncate" title={"Yinka Quadri"}>
-                                                Yinka Quadri
+                                            <p className="truncate" title={doctor.full_name}>
+                                                {doctor.full_name}
                                             </p>
                                             <div className="flex items-center gap-2">
-                                                <BriefCaseIcon className="text-base" />
-                                                <p className="font-normal text-sm">Cardiology</p>
+                                                <Briefcase className="h-3 w-3" />
+                                                <p className="font-normal text-sm">{doctor.specialization}</p>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <MessageIcon className="text-base" />
+                                                <MessageCircle className="h-3 w-3" />
                                                 <p className="font-normal text-sm">62 sessions (33 reviews)</p>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <GraduationHatIcon className="text-base" />
-                                                <p className="font-normal text-sm">5 years experience</p>
+                                                <GraduationCap className="h-3 w-3" />
+                                                <p className="font-normal text-sm">{doctor.years_of_experience} years experience</p>
                                             </div>
                                             <BookButton date={date} />
                                         </div>
