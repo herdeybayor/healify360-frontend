@@ -2,9 +2,6 @@ import Logo from "@/components/custom/logo";
 import { MobileNav } from "@/components/custom/mobile-sidebar";
 import PatientNavbar from "@/components/custom/patient-navbar";
 import SideBar from "@/components/custom/sidebar";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
-import Image from "next/image";
 
 import React from "react";
 
