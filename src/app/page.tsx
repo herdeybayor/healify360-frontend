@@ -93,7 +93,7 @@ export default function Home() {
           </p>
         </div>
         <div className='md:mt-12 mt-6 relative'>
-          <div className='max-w-[1400px] mx-auto md:grid grid-cols-2'>
+          <div className='max-w-[1400px] mx-auto md:grid grid-cols-2 items-center px-4'>
             <div>
               <div className='py-4'>
                 <h4 className='text-xl font-semibold'>Convinient</h4>
