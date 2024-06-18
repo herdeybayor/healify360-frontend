@@ -9,6 +9,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 import { countries } from "./countries";
 import { useStateHistory } from "./use-state-history";
+import Image from "next/image";
 
 export type Country = (typeof countries)[number];
 
@@ -147,12 +148,14 @@ export function PhoneInput({ value: valueProp, defaultCountry = "US", className,
                                                 }}
                                             >
                                                 <Check className={cn("mr-2 size-4", countryCode === country.iso2 ? "opacity-100" : "opacity-0")} />
-                                                <img
+                                                <Image
                                                     src={`/flags/${country.iso2.toLowerCase()}.svg`}
                                                     className="relative top-0.5 mr-2 w-4 h-3 object-cover"
                                                     aria-labelledby={country.name}
                                                     title={country.name}
                                                     alt={country.name}
+                                                    width={16}
+                                                    height={12}
                                                 />
                                                 {country.name}
                                                 <span className="text-gray-11 ml-1">(+{country.phone_code})</span>

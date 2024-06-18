@@ -34,12 +34,12 @@ function PatientOnboarding2() {
             setData({ step: 2, data });
             setCurrentStep("3");
         },
-        [setData, setCurrentStep]
+        [setData, setCurrentStep, form]
     );
     return (
         <div className="max-w-md">
             <h1 className="font-semibold text-2xl">Contact and Demographic Information</h1>
-            <p className="mt-4 text-muted-foreground">Collecting detailed contact and demographic information to stay connected and understand the patient's background.</p>
+            <p className="mt-4 text-muted-foreground">Collecting detailed contact and demographic information to stay connected and understand the patient&apos;s background.</p>
             <div className="md:mt-8 mt-4">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8 flex flex-col">

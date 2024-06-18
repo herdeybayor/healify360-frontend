@@ -28,7 +28,7 @@ function PatientOnboarding3() {
     return (
         <div className="max-w-md">
             <h1 className="font-semibold text-2xl">Medical History and Preferences</h1>
-            <p className="mt-4 text-muted-foreground">Gathering the patient's medical history and preferences to provide comprehensive and personalized care.</p>
+            <p className="mt-4 text-muted-foreground">Gathering the patient&apos;s medical history and preferences to provide comprehensive and personalized care.</p>
             <div className="md:mt-8 mt-4">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8 flex flex-col">
