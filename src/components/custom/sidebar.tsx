@@ -1,66 +1,78 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import DashboardIcon from '../icons/DashboardIcon';
-import ExploreIcon from '../icons/ExploreIcon';
-import MessageIcon from '../icons/MessageIcon';
-import VideoCallIcon from '../icons/VideoCallIcon';
-
-const routes = [
-  {
-    label: 'Dashboard',
-    url: '/patients',
-    icon: <DashboardIcon />,
-  },
-  {
-    label: 'Explore',
-    url: '/patients/explore',
-    icon: <ExploreIcon />,
-  },
-  {
-    label: 'Book Session',
-    url: '/patients/session',
-    icon: <VideoCallIcon />,
-  },
-  {
-    label: 'Message',
-    url: '/patients/message',
-    icon: <MessageIcon />,
-  },
-];
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Logo from "./logo";
+import { FileClock, Home, LayoutDashboard, MessageCircle, Video } from "lucide-react";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { useCallback, useMemo } from "react";
+import useUser from "@/hooks/use-user";
 
 export default function SideBar() {
-  const pathname = usePathname();
-  const router = useRouter();
+    const pathname = usePathname();
 
-  const isActive = function (href: string) {
-    if (pathname === href) return true;
-    else return false;
-  };
+    const { user } = useUser();
 
-  return (
-    <div className='p-4'>
-      <div className='mt-8 mb-6  items-center gap-3 hidden md:flex'>
-        <Image src='/logo.png' alt='logo' width={32} height={32} className='' />
-        <h1 className='font-caveatSans text-2xl text-[#008037]'>Projectxx</h1>
-      </div>
+    const routes = useMemo(
+        () => [
+            {
+                label: "Dashboard",
+                url: "/patient",
+                icon: <Home />,
+            },
+            ...(user?.is_onboarding_complete === false
+                ? [
+                      {
+                          label: "Onboarding",
+                          url: "/patient/onboarding",
+                          icon: <FileClock />,
+                      },
+                  ]
+                : [
+                      {
+                          label: "Explore",
+                          url: "/patient/explore",
+                          icon: <LayoutDashboard />,
+                      },
+                      {
+                          label: "Book Session",
+                          url: "/patient/session",
+                          icon: <Video />,
+                      },
+                      {
+                          label: "Message",
+                          url: "/patient/message",
+                          icon: <MessageCircle />,
+                      },
+                  ]),
+        ],
+        [user]
+    );
 
-      <ul className='space-y-3 hidden md:block'>
-        {routes.map((item, index) => {
-          return (
-            <li
-              key={index}
-              className={`flex items-center space-x-3 py-2 px-3 rounded-lg  ${
-                isActive(item.url) ? 'bg-[#00AC30] text-white' : 'text-black'
-              }`}>
-              {item.icon}
-              <Link href={item.url}>{item.label}</Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
+    const isActive = useCallback(
+        (url: string) => {
+            return pathname === url;
+        },
+        [pathname]
+    );
+
+    return (
+        <div className="p-4">
+            <Logo href="/patients" className="hidden md:block" />
+
+            <ul className="flex-col p-4 gap-4 hidden md:flex">
+                {routes.map((item, index) => {
+                    return (
+                        <Button key={index} asChild variant={isActive(item.url) ? "default" : "ghost"} className={"justify-start"}>
+                            <Link href={item.url} className="flex items-center gap-3">
+                                {item.icon}
+                                <span>{item.label}</span>
+                            </Link>
+                        </Button>
+                    );
+                })}
+            </ul>
+        </div>
+    );
 }
