@@ -14,9 +14,11 @@ import Autoplay from 'embla-carousel-autoplay';
 export default function CustomCarousel({
   opts,
   children,
+  className,
 }: {
   opts?: CarouselProps;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <Carousel
@@ -29,9 +31,9 @@ export default function CustomCarousel({
       opts={{
         loop: true,
       }}>
-      <CarouselContent>{children}</CarouselContent>
-      <CarouselNext />
+      <CarouselContent className={className}>{children}</CarouselContent>
       <CarouselPrevious />
+      <CarouselNext />
     </Carousel>
   );
 }

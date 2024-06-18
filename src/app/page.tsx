@@ -136,7 +136,40 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className='max-w-[1400px] mx-auto py-11 px-4'></div>
+        <div className='max-w-[1400px] mx-auto py-11 px-4'>
+          <div className='flex'>
+            <div className='flex-1'>
+              <CustomCarousel
+                className='flex-col h-40'
+                opts={{
+                  orientation: 'vertical',
+                }}>
+                <CarouselItem>
+                  <p>1st</p>
+                </CarouselItem>
+                <CarouselItem>
+                  <p>2nd</p>
+                </CarouselItem>
+                <CarouselItem>
+                  <p>3rd</p>
+                </CarouselItem>
+              </CustomCarousel>
+            </div>
+            <div>
+              <CustomCarousel>
+                <CarouselItem>
+                  <p>1st</p>
+                </CarouselItem>
+                <CarouselItem>
+                  <p>2nd</p>
+                </CarouselItem>
+                <CarouselItem>
+                  <p>3rd</p>
+                </CarouselItem>
+              </CustomCarousel>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );
