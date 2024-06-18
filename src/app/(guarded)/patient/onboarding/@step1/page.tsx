@@ -1,22 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Popover } from "@/components/ui/pop-over";
-import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import { Step1Data, step1Schema, usePatientOnboardingStep, usePatientOnboardingStore } from "@/store/patient-onboarding-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import Link from "next/link";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
-function PatientOnboarding() {
+function PatientOnboarding2() {
     const { step1, setData } = usePatientOnboardingStore();
     const [currentStep, setCurrentStep] = usePatientOnboardingStep();
 
@@ -107,4 +100,4 @@ function PatientOnboarding() {
     );
 }
 
-export default PatientOnboarding;
+export default PatientOnboarding2;
