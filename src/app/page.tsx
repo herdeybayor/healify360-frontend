@@ -92,6 +92,42 @@ export default function Home() {
             to a network of partner hospitals.
           </p>
         </div>
+        <div className='md:mt-12 mt-6'>
+          <div className='max-w-[1400px] mx-auto md:grid grid-cols-2'>
+            <div>
+              <div className='py-4'>
+                <h4 className='text-xl font-semibold'>Convinient</h4>
+                <p className='text-base text-[#475467]'>
+                  Easily book appointments with certified doctors from partner
+                  hospitals, anytime and anywhere.
+                </p>
+              </div>
+              <div className='py-4'>
+                <h4 className='text-xl font-semibold'>Secure</h4>
+                <p className='text-base text-[#475467]'>
+                  Communicate with doctors securely and privately through our
+                  encrypted messaging system.
+                </p>
+              </div>
+              <div className='py-4'>
+                <h4 className='text-xl font-semibold'>Efficient</h4>
+                <p className='text-base text-[#475467]'>
+                  Streamline the healthcare process and save time with our
+                  user-friendly platform.
+                </p>
+              </div>
+            </div>
+            <div>
+              <Image
+                src='/doctor-dashboard.png'
+                width={760}
+                height={483}
+                className='aspect-video'
+                alt=''
+              />
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );
