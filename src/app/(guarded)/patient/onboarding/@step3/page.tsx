@@ -1,44 +1,56 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Popover } from "@/components/ui/pop-over";
-import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
-import { Step1Data, step1Schema, usePatientOnboardingStep, usePatientOnboardingStore } from "@/store/patient-onboarding-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import Link from "next/link";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+const formSchema = z.object({
+    fullName: z.string({ message: "FullName is required" }).min(2, { message: "Full name must be at least 2 characters long" }).max(255, { message: "Full name must be at most 255 characters long" }),
+    years: z.number({ message: "Years of Experience has to be a number" }),
+
+    address: z.string({ message: "Home Address is required" }),
+    gender: z.string({ message: "Please select a gender" }),
+});
 
 function PatientOnboarding() {
-    const { step1, setData } = usePatientOnboardingStore();
-    const [currentStep, setCurrentStep] = usePatientOnboardingStep();
-
-    const form = useForm<Step1Data>({
-        resolver: zodResolver(step1Schema),
-        defaultValues: step1,
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            fullName: "",
+            years: 0,
+            address: "",
+            gender: "Male",
+        },
     });
 
-    const onSubmit = useCallback(
-        (data: Step1Data) => {
-            setData({ step: 1, data });
-            setCurrentStep("2");
-        },
-        [setData, setCurrentStep]
-    );
+    const onSubmit = useCallback((data: z.infer<typeof formSchema>) => {
+        const payload = {
+            first_name: data.fullName,
+            last_name: data.years,
+            email: data.address,
+            gender: data.gender,
+        };
+
+        // toast.promise(register(payload), {
+        //   loading: 'Registering...',
+        //   success: 'Registration successful',
+        //   error: (error) => error.response?.data.message || 'Registration failed',
+        // });
+    }, []);
+
     return (
         <div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8 flex flex-col">
                     <FormField
                         control={form.control}
-                        name="full_name"
+                        name="fullName"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Full Name</FormLabel>
@@ -52,12 +64,26 @@ function PatientOnboarding() {
 
                     <FormField
                         control={form.control}
-                        name="date_of_birth"
+                        name="years"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col gap-2">
-                                <FormLabel>Date of birth</FormLabel>
+                            <FormItem>
+                                <FormLabel>Years of Experience</FormLabel>
                                 <FormControl>
-                                    <Input type="date" placeholder="Select your date of birth" {...field} />
+                                    <Input placeholder="05" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Home Address</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="80, Wesbley Kingdom" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -78,9 +104,8 @@ function PatientOnboarding() {
                                         <SelectContent>
                                             <SelectGroup>
                                                 {[
-                                                    { value: "M", label: "Male" },
-                                                    { value: "F", label: "Female" },
-                                                    { value: "O", label: "Other" },
+                                                    { value: "male", label: "Male" },
+                                                    { value: "female", label: "Female" },
                                                 ].map((option) => (
                                                     <SelectItem key={option.value} value={option.value}>
                                                         {option.label}
@@ -101,7 +126,15 @@ function PatientOnboarding() {
                         </Button>
                     </div>
                 </form>
-                <p className="text-sm mt-4 text-primary font-semibold">Step 0{currentStep}/03</p>
+
+                <div className="mt-4 text-center">
+                    <p className="text-neutral-600 text-sm dark:text-neutral-300">
+                        Already have an account?{" "}
+                        <Link href="/login" className="text-primary hover:underline">
+                            Login
+                        </Link>
+                    </p>
+                </div>
             </Form>
         </div>
     );

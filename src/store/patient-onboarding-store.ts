@@ -4,14 +4,14 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 
 // Step 1 Schema
-export const stepOneSchema = z.object({
+export const step1Schema = z.object({
     full_name: z.string().min(2, { message: "Full name must be at least 2 characters long" }).max(255, { message: "Full name must be at most 255 characters long" }),
     date_of_birth: z.string().refine((date) => !isNaN(Date.parse(date)), { message: "Invalid date format" }),
     gender: z.enum(["M", "F", "O"], { message: "Please select a valid gender" }),
 });
 
 // Step 2 Schema
-export const stepTwoSchema = z.object({
+export const step2Schema = z.object({
     phone_number: z.object({
         code: z.string().min(1, { message: "Country code is required" }),
         number: z.string().min(7, { message: "Phone number must be at least 7 digits long" }),
@@ -31,7 +31,7 @@ export const stepTwoSchema = z.object({
 });
 
 // Step 3 Schema
-export const stepThreeSchema = z.object({
+export const step3Schema = z.object({
     major_illnesses: z.array(
         z.object({
             name: z.string().min(1, { message: "Illness name is required" }),
@@ -62,26 +62,26 @@ export const stepThreeSchema = z.object({
 });
 
 // Define types
-export type StepOneData = z.infer<typeof stepOneSchema>;
-export type StepTwoData = z.infer<typeof stepTwoSchema>;
-export type StepThreeData = z.infer<typeof stepThreeSchema>;
+export type Step1Data = z.infer<typeof step1Schema>;
+export type Step2Data = z.infer<typeof step2Schema>;
+export type Step3Data = z.infer<typeof step3Schema>;
 
-type StepData = { step: 1; data: Partial<StepOneData> } | { step: 2; data: Partial<StepTwoData> } | { step: 3; data: Partial<StepThreeData> };
+type StepData = { step: 1; data: Partial<Step1Data> } | { step: 2; data: Partial<Step2Data> } | { step: 3; data: Partial<Step3Data> };
 
 // Initial data for each step
-const initialStepOneData: StepOneData = {
+const initialStep1Data: Step1Data = {
     full_name: "Somebody Doe",
     date_of_birth: "1990-05-15",
     gender: "M",
 };
 
-const initialStepTwoData: StepTwoData = {
+const initialStep2Data: Step2Data = {
     phone_number: { code: "+1", number: "5551234567" },
     home_address: { city: "New York", state: "NY", street: "123 Main St", country: "USA" },
     emergency_contact: { name: "Jane Doe", email: "jane.doe@example.com", phone: "5559876543", relationship: "Spouse" },
 };
 
-const initialStepThreeData: StepThreeData = {
+const initialStep3Data: Step3Data = {
     major_illnesses: [
         { name: "Hypertension", period: "2010-01-01" },
         { name: "Type 2 Diabetes", period: "2015-06-01" },
@@ -97,20 +97,21 @@ const initialStepThreeData: StepThreeData = {
 };
 
 export const usePatientOnboardingStore = create<{
-    stepOne: StepOneData;
-    stepTwo: StepTwoData;
-    stepThree: StepThreeData;
+    step1: Step1Data;
+    step2: Step2Data;
+    step3: Step3Data;
     setData: ({ step, data }: StepData) => void;
     reset: () => void;
 }>()(
     persist(
         (set) => ({
-            stepOne: initialStepOneData,
-            stepTwo: initialStepTwoData,
-            stepThree: initialStepThreeData,
+            step1: initialStep1Data,
+            step2: initialStep2Data,
+            step3: initialStep3Data,
             setData: ({ step, data }: StepData) =>
                 set((state) => {
                     const key = `step${step}` as keyof typeof state;
+                    console.log("setting", key, data);
                     return {
                         ...state,
                         [key]: { ...state[key], ...data },
@@ -118,14 +119,15 @@ export const usePatientOnboardingStore = create<{
                 }),
             reset: () =>
                 set({
-                    stepOne: initialStepOneData,
-                    stepTwo: initialStepTwoData,
-                    stepThree: initialStepThreeData,
+                    step1: initialStep1Data,
+                    step2: initialStep2Data,
+                    step3: initialStep3Data,
                 }),
         }),
         {
             name: "patient-onboarding-storage",
-            storage: createJSONStorage(() => sessionStorage),
+            storage: createJSONStorage(() => localStorage),
+            getStorage: () => localStorage,
         }
     )
 );
