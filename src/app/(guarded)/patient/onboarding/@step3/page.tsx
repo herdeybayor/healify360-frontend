@@ -52,7 +52,7 @@ function PatientOnboarding3() {
                 error: (error) => error.response?.data.message || "An error occurred",
             });
         },
-        [setData]
+        [setData, step1, step2]
     );
     return (
         <div className="max-w-md">

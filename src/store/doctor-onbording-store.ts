@@ -155,12 +155,26 @@ export const step3Schema = z.object({
 });
 
 export const step4Schema = z.object({
-    medical_license: z.string().min(1, { message: "Medical license is required" }),
+    medical_license: z
+        .string({
+            required_error: "Medical license is required",
+            description: "Medical license",
+        })
+        .min(1, { message: "Medical license is required" }),
     states_of_licensure: z.array(
         z.object({
             state: z.string().min(1, { message: "State is required" }),
-            license_number: z.string().min(1, { message: "License number is required" }),
-        })
+            license_number: z
+                .string({
+                    required_error: "License number is required",
+                    description: "License number",
+                })
+                .min(1, { message: "License number is required" }),
+        }),
+        {
+            required_error: "At least one state of licensure is required",
+            description: "State of licensure",
+        }
     ),
     malpractice_insurance_details: z.object({
         provider: z.string().min(1, { message: "Provider is required" }),

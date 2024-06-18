@@ -14,12 +14,12 @@ function DoctorOnboarding1() {
             setData({ step: 1, data });
             setCurrentStep("2");
         },
-        [setData]
+        [setData, setCurrentStep]
     );
     return (
         <div className="max-w-md">
-            <h1 className="font-semibold text-2xl">Doctor's Basic Information</h1>
-            <p className="mt-4 text-muted-foreground">Let's get started with some basic information about you.</p>
+            <h1 className="font-semibold text-2xl">Doctor&apos;s Basic Information</h1>
+            <p className="mt-4 text-muted-foreground">Let&apos;s get started with some basic information about you.</p>
             <div className="md:mt-8 mt-4">
                 <AutoForm formSchema={step1Schema} onSubmit={onSubmit} values={step1}>
                     <div className="items-center flex gap-4 flex-row">

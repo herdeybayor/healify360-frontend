@@ -14,7 +14,7 @@ function DoctorOnboarding2() {
             setData({ step: 5, data });
             console.log({ ...step1, ...step2, ...step3, ...step4, ...step5 });
         },
-        [setData]
+        [setData, step1, step2, step3, step4, step5]
     );
     return (
         <div className="max-w-md">

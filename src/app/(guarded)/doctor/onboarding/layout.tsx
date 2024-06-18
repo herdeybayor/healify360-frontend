@@ -2,7 +2,7 @@
 
 import { useDoctorOnboardingStep } from "@/store/doctor-onbording-store";
 import Image from "next/image";
-import { type ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 
 function OnboardingLayout({
     step1,
@@ -35,4 +35,10 @@ function OnboardingLayout({
     );
 }
 
-export default OnboardingLayout;
+export default function OnboardingLayoutSuspense(props: any) {
+    return (
+        <Suspense>
+            <OnboardingLayout {...props} />
+        </Suspense>
+    );
+}
