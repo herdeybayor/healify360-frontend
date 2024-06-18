@@ -31,9 +31,9 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/', request.nextUrl));
     }
   } else {
-    // if (!accessToken) {
-    //   return NextResponse.redirect(new URL('/login', request.nextUrl));
-    // }
+    if (!accessToken) {
+      return NextResponse.redirect(new URL('/login', request.nextUrl));
+    }
   }
 
   // Log middleware details in development
