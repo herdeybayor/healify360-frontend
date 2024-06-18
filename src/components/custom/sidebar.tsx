@@ -25,24 +25,24 @@ export default function SideBar() {
                 ? [
                       {
                           label: "Onboarding",
-                          url: "/patients/onboarding",
+                          url: "/patient/onboarding",
                           icon: <FileClock />,
                       },
                   ]
                 : []),
             {
                 label: "Explore",
-                url: "/patients/explore",
+                url: "/patient/explore",
                 icon: <LayoutDashboard />,
             },
             {
                 label: "Book Session",
-                url: "/patients/session",
+                url: "/patient/session",
                 icon: <Video />,
             },
             {
                 label: "Message",
-                url: "/patients/message",
+                url: "/patient/message",
                 icon: <MessageCircle />,
             },
         ],
