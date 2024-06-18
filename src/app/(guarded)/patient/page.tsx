@@ -39,11 +39,13 @@ export default function PatientDashboard() {
 
     return (
         <div className="">
-            <Alert className="mb-4">
-                <Info />
-                <AlertTitle className="font-semibold">Welcome to Healify360</AlertTitle>
-                <AlertDescription className="text-gray-600">Please complete your onboarding to access all features</AlertDescription>
-            </Alert>
+            {user?.is_onboarding_complete === false && (
+                <Alert className="mb-4">
+                    <Info />
+                    <AlertTitle className="font-semibold">Welcome to Healify360</AlertTitle>
+                    <AlertDescription className="text-gray-600">Please complete your onboarding to access all features</AlertDescription>
+                </Alert>
+            )}
 
             {loadingUser ? <Skeleton className="h-8 w-32" /> : <h1 className="md:text-2xl font-semibold">Welcome {user?.first_name} 🔥,</h1>}
             <div>

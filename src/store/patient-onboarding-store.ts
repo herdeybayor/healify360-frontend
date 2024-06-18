@@ -145,9 +145,9 @@ const initialStep1Data: Step1Data = {
 };
 
 const initialStep2Data: Step2Data = {
-    phone_number: "+15551234567",
+    phone_number: "+2349787655963",
     home_address: { city: "New York", state: "NY", street: "123 Main St", country: "USA" },
-    emergency_contact: { name: "Jane Doe", email: "jane.doe@example.com", phone: "5559876543", relationship: "Spouse" },
+    emergency_contact: { name: "Jane Doe", email: "jane.doe@example.com", phone: "2349787655963", relationship: "Spouse" },
 };
 
 const initialStep3Data: Step3Data = {

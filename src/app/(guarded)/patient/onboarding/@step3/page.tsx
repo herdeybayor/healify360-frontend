@@ -1,23 +1,56 @@
 "use client";
 
-import AutoForm, { AutoFormSubmit } from "@/components/custom/auto-form";
+import AutoForm from "@/components/custom/auto-form";
+import { getPhoneData } from "@/components/custom/phone-input";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Step3Data, step3Schema, usePatientOnboardingStep, usePatientOnboardingStore } from "@/store/patient-onboarding-store";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { PatientProfileCreate } from "@/http";
+import { Step1Data, Step2Data, Step3Data, step3Schema, usePatientOnboardingStep, usePatientOnboardingStore } from "@/store/patient-onboarding-store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function PatientOnboarding3() {
-    const { step3, setData } = usePatientOnboardingStore();
-    const [currentStep, setCurrentStep] = usePatientOnboardingStep();
+    const router = useRouter();
+    const { step1, step2, step3, setData } = usePatientOnboardingStore();
+    const [_, setCurrentStep] = usePatientOnboardingStep();
+
+    const queryClient = useQueryClient();
+
+    const { mutateAsync: createProfile, isPending: isCreatingProfile } = useMutation({
+        mutationFn: PatientProfileCreate,
+        onSuccess() {
+            router.push("/patient");
+            queryClient.invalidateQueries({
+                queryKey: ["auth-session"],
+            });
+        },
+    });
 
     const onSubmit = useCallback(
         (data: Step3Data) => {
             setData({ step: 3, data });
-            console.log(data);
+            const my_phone = getPhoneData(step2.phone_number);
+            const emergency_contact = getPhoneData(step2.emergency_contact.phone);
+
+            const payload: Step1Data &
+                Omit<Step2Data, "phone_number" | "emergency_contact"> &
+                Step3Data & { phone_number: { code: string; number: string }; emergency_contact: { name: string; email: string; phone: { code: string; number: string }; relationship: string } } = {
+                ...step1,
+                ...step2,
+                ...data,
+                phone_number: { code: my_phone.countryCallingCode || "", number: my_phone.nationalNumber || "" },
+                emergency_contact: {
+                    ...step2.emergency_contact,
+                    phone: { code: emergency_contact.countryCallingCode || "", number: emergency_contact.nationalNumber || "" },
+                },
+            };
+
+            toast.promise(createProfile(payload), {
+                loading: "Saving...",
+                success: "Profile created successfully",
+                error: (error) => error.response?.data.message || "An error occurred",
+            });
         },
         [setData]
     );
@@ -31,7 +64,7 @@ function PatientOnboarding3() {
                         <Button variant="outline" type="button" className="mt-8 w-full" onClick={() => setCurrentStep("2")}>
                             Back
                         </Button>
-                        <Button type="submit" className="w-full mt-8">
+                        <Button type="submit" className="w-full mt-8" disabled={isCreatingProfile}>
                             Complete
                         </Button>
                     </div>
