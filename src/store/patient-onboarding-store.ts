@@ -12,10 +12,7 @@ export const step1Schema = z.object({
 
 // Step 2 Schema
 export const step2Schema = z.object({
-    phone_number: z.object({
-        code: z.string().min(1, { message: "Country code is required" }),
-        number: z.string().min(7, { message: "Phone number must be at least 7 digits long" }),
-    }),
+    phone_number: z.string(),
     home_address: z.object({
         city: z.string().min(1, { message: "City is required" }),
         state: z.string().min(1, { message: "State is required" }),
@@ -25,7 +22,7 @@ export const step2Schema = z.object({
     emergency_contact: z.object({
         name: z.string().min(2, { message: "Contact name must be at least 2 characters long" }),
         email: z.string().email({ message: "Invalid email format" }),
-        phone: z.string().min(7, { message: "Phone number must be at least 7 digits long" }),
+        phone: z.string(),
         relationship: z.string().min(1, { message: "Relationship is required" }),
     }),
 });
@@ -76,7 +73,7 @@ const initialStep1Data: Step1Data = {
 };
 
 const initialStep2Data: Step2Data = {
-    phone_number: { code: "+1", number: "5551234567" },
+    phone_number: "+15551234567",
     home_address: { city: "New York", state: "NY", street: "123 Main St", country: "USA" },
     emergency_contact: { name: "Jane Doe", email: "jane.doe@example.com", phone: "5559876543", relationship: "Spouse" },
 };
