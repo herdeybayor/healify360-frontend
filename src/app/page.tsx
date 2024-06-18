@@ -3,6 +3,7 @@ import MenuIcon from '@/components/icons/MenuIcon';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const routes = ['About Us', 'Services', 'How It Works', 'Contact Us'];
@@ -69,6 +70,27 @@ export default function Home() {
             convenient and streamlined healthcare like never before.
           </p>
           <Button className='mt-3'>Sign Up</Button>
+          <div className='max-w-[760px] md:mt-8 mt-5 mx-auto relative'>
+            <Image
+              src='/doctor-dashboard.png'
+              width={760}
+              height={483}
+              className='aspect-video'
+              alt=''
+            />
+          </div>
+        </div>
+        <div className='max-w-[1400px] mx-auto py-4'>
+          <h3 className='font-semibold text-base text-[#00AC30]'>Features</h3>
+          <h1 className='lg:text-5xl text-lg md:text-3xl font-semibold mt-4 max-w-[760px]'>
+            Transforming Healthcare with Innovative Solutions
+          </h1>
+          <p className='max-w-[760px] pt-5 text-[#475467]'>
+            Healify 360 is a cutting-edge platform that simplifies healthcare by
+            connecting patients with certified doctors, enabling easy
+            appointment booking, secure patient-doctor communication, and access
+            to a network of partner hospitals.
+          </p>
         </div>
       </main>
     </div>
