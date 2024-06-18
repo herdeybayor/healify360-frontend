@@ -7,6 +7,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Skeleton } from "@/components/ui/skeleton";
 import useUser from "@/hooks/use-user";
 import { DoctorFind } from "@/http";
+import { generateImage, generateRandomNumber } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Briefcase, GraduationCap, Info, LayoutDashboard, MessageCircle, Video } from "lucide-react";
 import Image from "next/image";
@@ -31,35 +32,6 @@ const routes = [
         icon: <MessageCircle />,
     },
 ];
-
-function hashStringToSeed(str: string): number {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        const char = str.charCodeAt(i);
-        hash = (hash << 5) - hash + char;
-        hash |= 0; // Convert to 32-bit integer
-    }
-    return Math.abs(hash);
-}
-
-function seededRandom(seed: number) {
-    const a = 1664525;
-    const c = 1013904223;
-    const m = Math.pow(2, 32);
-    seed = (seed * a + c) % m;
-    return seed / m;
-}
-
-function generateRandomNumber(min: number, max: number, seed: string): number {
-    const seedNumber = hashStringToSeed(seed);
-    const randomValue = seededRandom(seedNumber);
-    return Math.floor(randomValue * (max - min + 1)) + min;
-}
-
-function generateImage(userId: string): string {
-    const num = generateRandomNumber(1, 999, userId).toString().padStart(3, "0");
-    return `https://ozgrozer.github.io/100k-faces/0/0/000${num}.jpg`;
-}
 
 export default function PatientDashboard() {
     const [date, setDate] = useState<undefined | DateRange>(undefined);
@@ -131,7 +103,9 @@ export default function PatientDashboard() {
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <MessageCircle className="h-3 w-3" />
-                                                <p className="font-normal text-sm">62 sessions (33 reviews)</p>
+                                                <p className="font-normal text-sm">
+                                                    {generateRandomNumber(1, 100, doctor._id)} sessions ({generateRandomNumber(1, 25, doctor._id)} reviews)
+                                                </p>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <GraduationCap className="h-3 w-3" />

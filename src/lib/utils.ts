@@ -30,3 +30,32 @@ export const titleCase = (str: string): string => {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
 };
+
+export function hashStringToSeed(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = (hash << 5) - hash + char;
+        hash |= 0; // Convert to 32-bit integer
+    }
+    return Math.abs(hash);
+}
+
+export function seededRandom(seed: number) {
+    const a = 1664525;
+    const c = 1013904223;
+    const m = Math.pow(2, 32);
+    seed = (seed * a + c) % m;
+    return seed / m;
+}
+
+export function generateRandomNumber(min: number, max: number, seed: string): number {
+    const seedNumber = hashStringToSeed(seed);
+    const randomValue = seededRandom(seedNumber);
+    return Math.floor(randomValue * (max - min + 1)) + min;
+}
+
+export function generateImage(userId: string): string {
+    const num = generateRandomNumber(1, 999, userId).toString().padStart(3, "0");
+    return `https://ozgrozer.github.io/100k-faces/0/0/000${num}.jpg`;
+}
