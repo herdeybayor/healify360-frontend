@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Briefcase, GraduationCap, Info, LayoutDashboard, MessageCircle, Video } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -34,7 +35,8 @@ const routes = [
 ];
 
 export default function PatientDashboard() {
-    const [date, setDate] = useState<undefined | DateRange>(undefined);
+    const router = useRouter();
+    const [date, setDate] = useState<undefined | Date>(undefined);
     const { user, isPending: loadingUser } = useUser();
 
     const { data: doctorFindQuery, isPending: isFindingDoctor } = useQuery({
@@ -111,8 +113,11 @@ export default function PatientDashboard() {
                                                 <GraduationCap className="h-3 w-3" />
                                                 <p className="font-normal text-sm">{doctor.years_of_experience} years experience</p>
                                             </div>
-                                            <BookButton date={date} />
                                         </div>
+
+                                        <Button className="mt-4 w-full" onClick={() => router.push(`/patient/explore?doctor=${doctor._id}&name=${decodeURIComponent(doctor.full_name)}`)}>
+                                            Book a Session
+                                        </Button>
                                     </div>
                                 ))}
                             </div>
@@ -121,9 +126,11 @@ export default function PatientDashboard() {
 
                     <div className="">
                         <div className="w-fit rounded-md border hidden xl:block">
-                            <Calendar mode="range" selected={date} onSelect={(date) => setDate(date)} className="mx-auto" />
+                            <Calendar mode="single" selected={date} onSelect={(date) => setDate(date)} className="mx-auto" />
                             <div className="px-5 pb-6">
-                                <Button className="w-full">Book a Session</Button>
+                                <Button className="w-full" onClick={() => router.push(`/patient/explore?date=${date?.toISOString()}`)}>
+                                    Book a Session
+                                </Button>
                             </div>
                         </div>
                     </div>
