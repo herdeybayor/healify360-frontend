@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -146,42 +146,58 @@ export default function Home() {
         <div className='max-w-[1400px] mx-auto py-11 px-4'>
           <div className='lg:grid grid-cols-[65%_1fr] rounded-lg overflow-hidden'>
             <div className='bg-[#00AC30] relative'>
-              <CustomCarousel className='lg:py-12'>
-                <CarouselItem>
-                  <div className='max-w-[85%] mx-auto text-white'>
-                    <h3 className='md:text-4xl'>
-                      I couldn't be happier with the care I received. The
-                      doctors were knowledgeable and attentive.
-                    </h3>
-                    <p className='mt-8 text-lg font-semibold'>— Hilda Baci</p>
-                    <p className='text-[#E9D7FE]'>Chef, Hilda’s Kitchen</p>
-                  </div>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className='max-w-[85%] mx-auto text-white'>
-                    <h3 className='md:text-4xl'>
-                      I couldn't be happier with the care I received. The
-                      doctors were knowledgeable and attentive.
-                    </h3>
-                    <p className='mt-8 text-lg font-semibold'>— Hilda Baci</p>
-                    <p className='text-[#E9D7FE]'>Chef, Hilda’s Kitchen</p>
-                  </div>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className='max-w-[85%] mx-auto text-white'>
-                    <h3 className='md:text-4xl'>
-                      I couldn't be happier with the care I received. The
-                      doctors were knowledgeable and attentive.
-                    </h3>
-                    <p className='mt-8 text-lg font-semibold'>— Hilda Baci</p>
-                    <p className='text-[#E9D7FE]'>Chef, Hilda’s Kitchen</p>
-                  </div>
-                </CarouselItem>
+              <CustomCarousel className='lg:py-12 py-10'>
+                {[
+                  {
+                    title:
+                      'I couldn’t be happier with the care I received. The doctors were knowledgeable and attentive.',
+                    name: 'Hilda Baci',
+                    position: 'Chef, Hilda’s Kitchen',
+                    imgSrc: '/nurse.png',
+                  },
+                  {
+                    title:
+                      'Healify 360 has greatly facilitated my healthcare journey. I wholeheartedly endorse its use.',
+                    name: '— Adora Nwodo',
+                    position: 'Software Engineer, SurrealDB',
+                    imgSrc: '/mercy-awo.png',
+                  },
+                  {
+                    title:
+                      'Using Healify 360 made my healthcare journey so much easier. I highly recommend it.',
+                    name: 'Tunde Awokoya',
+                    position: 'Chess Player, Chess  Foundation',
+                    imgSrc: '/tunde-awokoya.png',
+                  },
+                ].map((item, index) => (
+                  <CarouselItem key={index}>
+                    <div className='max-w-[85%] mx-auto text-white'>
+                      <div className='flex items-center gap-1'>
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <StarIcon
+                            key={index}
+                            color='#FEC84B'
+                            fill='#FEC84B'
+                          />
+                        ))}
+                      </div>
+                      <h3 className='lg:text-4xl text-2xl mt-4 lg:mt-6'>
+                        {item.title}
+                      </h3>
+                      <p className='mt-8 text-lg font-semibold'>
+                        — {item.name}
+                      </p>
+                      <p className='text-[#E9D7FE] text-base'>
+                        {item.position}
+                      </p>
+                    </div>
+                  </CarouselItem>
+                ))}
               </CustomCarousel>
             </div>
             <div>
               <CustomCarousel
-                className='flex-col lg:h-[460px]'
+                className='flex-col h-[280px] lg:h-[460px]'
                 opts={{
                   orientation: 'vertical',
                 }}>
