@@ -2,24 +2,62 @@
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { Textarea } from "../ui/textarea";
 import { format } from "date-fns";
+import { AppointmentBook } from "@/http";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { CalendarIcon, CheckCircle, HourglassIcon } from "lucide-react";
+
+function getISODateTime(date: string, time: string) {
+    const [timePart, period] = time.split(/(AM|PM)/);
+    let [hour, minute] = timePart.split(":").map(Number);
+
+    if (period === "PM" && hour !== 12) {
+        hour += 12;
+    } else if (period === "AM" && hour === 12) {
+        hour = 0;
+    }
+
+    const [year, month, day] = date.split("-").map(Number);
+
+    console.log(year, month, day, hour, minute);
+    // Month is zero-based in JavaScript Date
+    const isoString = new Date(year, month - 1, day, hour, minute).toISOString();
+    return isoString;
+}
 
 function BookSessionDialog() {
     const [doctor, setDoctor] = useBookSessionQueryStates();
-    const [message, setMessage] = useState(
-        doctor.date
-            ? `Hi Dr. Dekunle Emmanuel,
+    const [message, setMessage] = useState("");
 
-I would like to book a session with you on ${format(new Date(doctor.date), "do MMMM yyyy")} at ${doctor.time}.
+    const { mutateAsync: bookSession } = useMutation({
+        mutationFn: AppointmentBook,
+        onSuccess() {
+            setDoctor({
+                step: "4",
+            });
+        },
+    });
 
-Thanks,
-John Doe`
-            : ""
-    );
+    // { "message": "I no sick, but they say make I see doctor", // please send the date in this format exactly "date_time": "2024-06-28T21:00:00+01:00", "doctor_id": "666e0de6cc061c723a3557d9" }
+
+    const handleBookSession = useCallback(() => {
+        const payload = {
+            message,
+            date_time: getISODateTime(doctor.date.split("T")[0], doctor.time),
+            doctor_id: doctor.doctor,
+        };
+
+        toast.promise(bookSession(payload), {
+            loading: "Booking session...",
+            success: "Session booked successfully",
+            error: (error) => error.response?.data.message || "An error occurred",
+        });
+    }, [bookSession, doctor.date, doctor.doctor, doctor.time, message]);
 
     if (!doctor.doctor) return null;
     return (
@@ -35,12 +73,12 @@ John Doe`
                         {doctor.step === "1" && "Choose a date that is most convenient for you"}
                         {doctor.step === "2" && "In your local timezone (Africa/Lagos)"}
                         {doctor.step === "3" && (
-                            <div>
+                            <p>
                                 <span>Session with</span> <span className="text-[#00AC30]">{doctor.name}</span>{" "}
                                 <span>
                                     on {format(new Date(doctor.date), "do MMMM yyyy")} at {doctor.time}
                                 </span>
-                            </div>
+                            </p>
                         )}
                     </DialogDescription>
                 </DialogHeader>
@@ -143,6 +181,29 @@ John Doe`
                 )}
                 {doctor.step === "3" && <Textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Write a message to the doctor" rows={6} className="w-full" />}
 
+                {doctor.step === "4" && (
+                    <div>
+                        <CheckCircle width={100} height={100} className="mx-auto" />
+                        <h4 className="text-center text-3xl font-bold my-4 leading-normal">
+                            Your appointment has been <br /> booked!!
+                        </h4>
+                        <p className="text-sm font-semibold text-[#475569]">Booking session with</p>
+                        <div className="bg-[#E2E8F0] p-2 rounded-2xl my-2">
+                            <div className="text-[#475569] border-l-4 border-[#00AC30] pl-2">
+                                <p>{doctor.name}</p>
+                                <div className="flex gap-2 items-center mt-2">
+                                    <p className="flex items-center gap-2">
+                                        <CalendarIcon size={20} /> <span>{format(new Date(doctor.date), "do MMMM yyyy")}</span>
+                                    </p>
+                                    <p className="flex items-center gap-2">
+                                        <HourglassIcon size={20} /> <span>{doctor.time}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <div className="flex items-center space-x-4">
                     {["2", "3"].includes(doctor.step) && (
                         <Button
@@ -162,13 +223,15 @@ John Doe`
                             } else if (doctor.step === "2") {
                                 setDoctor({ step: "3" });
                             } else if (doctor.step === "3") {
-                                setDoctor({ step: "4" });
+                                handleBookSession();
+                            } else if (doctor.step === "4") {
+                                setDoctor({ doctor: "", name: "", date: "", time: "", step: "1" });
                             }
                         }}
                         className="w-full"
                         disabled={(doctor.step === "1" && !doctor.date) || (doctor.step === "2" && !doctor.time) || (doctor.step === "3" && !message)}
                     >
-                        {["1", "2"].includes(doctor.step) ? "Continue" : doctor.step === "3" ? "Confirm" : "Done"}
+                        {["1", "2"].includes(doctor.step) ? "Continue" : doctor.step === "3" ? "Confirm Booking" : "Done"}
                     </Button>
                 </div>
 

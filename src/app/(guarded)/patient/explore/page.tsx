@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Briefcase, Filter, GraduationCap, MessageCircle, Search } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { parseAsString, useQueryStates } from "nuqs";
 import { Suspense } from "react";
 
 function ExplorePage() {
@@ -71,7 +70,7 @@ function ExplorePage() {
                             className="mt-4 w-full"
                             onClick={() =>
                                 setDoctor({
-                                    doctor: doctor._id,
+                                    doctor: doctor.user_ref._id,
                                     name: doctor.full_name,
                                 })
                             }

@@ -115,7 +115,7 @@ export default function PatientDashboard() {
                                             </div>
                                         </div>
 
-                                        <Button className="mt-4 w-full" onClick={() => router.push(`/patient/explore?doctor=${doctor._id}&name=${decodeURIComponent(doctor.full_name)}`)}>
+                                        <Button className="mt-4 w-full" onClick={() => router.push(`/patient/explore?doctor=${doctor.user_ref._id}&name=${decodeURIComponent(doctor.full_name)}`)}>
                                             Book a Session
                                         </Button>
                                     </div>
