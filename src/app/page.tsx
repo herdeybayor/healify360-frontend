@@ -18,7 +18,7 @@ const routes = ['About Us', 'Services', 'How It Works', 'Contact Us'];
 
 export default function Home() {
   return (
-    <div className=''>
+    <div>
       <header className='max-w-[1400px] items-center mx-auto py-5 flex justify-between px-4'>
         <Logo />
         <nav>
@@ -137,72 +137,72 @@ export default function Home() {
           </div>
         </div>
         <div className='max-w-[1400px] mx-auto py-11 px-4'>
-          <div className='flex rounded-lg overflow-hidden'>
-            <div className='flex-1'>
-              <CustomCarousel className='h-[464px]'>
-                <CarouselItem className='bg-[#0DFD50] h-full'>
-                  <div>
-                    <h3>
+          <div className='lg:flex rounded-lg overflow-hidden'>
+            <div className='flex-1 bg-[#00AC30] relative'>
+              <CustomCarousel className='lg:py-12'>
+                <CarouselItem>
+                  <div className='max-w-[85%] mx-auto text-white'>
+                    <h3 className='md:text-4xl'>
                       I couldn't be happier with the care I received. The
                       doctors were knowledgeable and attentive.
                     </h3>
-                    <p>— Hilda Baci</p>
-                    Chef, Hilda’s Kitchen
+                    <p className='mt-8 text-lg font-semibold'>— Hilda Baci</p>
+                    <p className='text-[#E9D7FE]'>Chef, Hilda’s Kitchen</p>
                   </div>
                 </CarouselItem>
-                <CarouselItem className='bg-[#0DFD50] h-full'>
-                  <div>
-                    <h3>
+                <CarouselItem>
+                  <div className='max-w-[85%] mx-auto text-white'>
+                    <h3 className='md:text-4xl'>
                       I couldn't be happier with the care I received. The
                       doctors were knowledgeable and attentive.
                     </h3>
-                    <p>— Hilda Baci</p>
-                    Chef, Hilda’s Kitchen
+                    <p className='mt-8 text-lg font-semibold'>— Hilda Baci</p>
+                    <p className='text-[#E9D7FE]'>Chef, Hilda’s Kitchen</p>
                   </div>
                 </CarouselItem>
-                <CarouselItem className='bg-[#0DFD50] h-full'>
-                  <div>
-                    <h3>
+                <CarouselItem>
+                  <div className='max-w-[85%] mx-auto text-white'>
+                    <h3 className='md:text-4xl'>
                       I couldn't be happier with the care I received. The
                       doctors were knowledgeable and attentive.
                     </h3>
-                    <p>— Hilda Baci</p>
-                    Chef, Hilda’s Kitchen
+                    <p className='mt-8 text-lg font-semibold'>— Hilda Baci</p>
+                    <p className='text-[#E9D7FE]'>Chef, Hilda’s Kitchen</p>
                   </div>
                 </CarouselItem>
               </CustomCarousel>
             </div>
             <div>
               <CustomCarousel
-                className='flex-col h-[464px]'
+                className='flex-col h-[460px]'
                 opts={{
                   orientation: 'vertical',
                 }}>
                 <CarouselItem>
                   <Image
                     src='/nurse.png'
-                    className='rounded-md'
                     alt=''
-                    height={464}
+                    height={460}
                     width={480}
+                    className='w-full'
                   />
                 </CarouselItem>
                 <CarouselItem>
                   <Image
                     src='/mercy-awo.png'
-                    className='rounded-md'
                     alt=''
-                    height={464}
+                    height={460}
                     width={480}
+                    className='w-full'
                   />
                 </CarouselItem>
                 <CarouselItem>
                   <Image
                     src='/tunde-awokoya.png'
-                    className='rounded-md'
                     alt=''
-                    height={464}
+                    height={460}
                     width={480}
+                    className='w-full'
                   />
                 </CarouselItem>
               </CustomCarousel>
