@@ -10,12 +10,16 @@ import { format } from "date-fns";
 
 function BookSessionDialog() {
     const [doctor, setDoctor] = useBookSessionQueryStates();
-    const [message, setMessage] = useState(`Hi Dr. Dekunle Emmanuel,
+    const [message, setMessage] = useState(
+        doctor.date
+            ? `Hi Dr. Dekunle Emmanuel,
 
 I would like to book a session with you on ${format(new Date(doctor.date), "do MMMM yyyy")} at ${doctor.time}.
 
 Thanks,
-John Doe`);
+John Doe`
+            : ""
+    );
 
     if (!doctor.doctor) return null;
     return (

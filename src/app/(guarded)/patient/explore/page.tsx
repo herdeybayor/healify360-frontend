@@ -10,6 +10,7 @@ import { Briefcase, Filter, GraduationCap, MessageCircle, Search } from "lucide-
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseAsString, useQueryStates } from "nuqs";
+import { Suspense } from "react";
 
 function ExplorePage() {
     const router = useRouter();
@@ -33,7 +34,6 @@ function ExplorePage() {
                         <Filter className="h-5 w-5" /> Filter
                     </Button>
                 </div>
-                B
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:mt-6 mt-3 gap-4">
@@ -85,4 +85,10 @@ function ExplorePage() {
     );
 }
 
-export default ExplorePage;
+export default function ExplorePageWrapper() {
+    return (
+        <Suspense fallback={<Skeleton className="h-screen" />}>
+            <ExplorePage />
+        </Suspense>
+    );
+}
