@@ -8,7 +8,7 @@ import { Calendar } from "../ui/calendar";
 import { Textarea } from "../ui/textarea";
 import { format } from "date-fns";
 import { AppointmentBook } from "@/http";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { CalendarIcon, CheckCircle, HourglassIcon } from "lucide-react";
 
@@ -31,19 +31,21 @@ function getISODateTime(date: string, time: string) {
 }
 
 function BookSessionDialog() {
+    const queryClient = useQueryClient();
     const [doctor, setDoctor] = useBookSessionQueryStates();
     const [message, setMessage] = useState("");
 
     const { mutateAsync: bookSession } = useMutation({
         mutationFn: AppointmentBook,
         onSuccess() {
+            queryClient.invalidateQueries({
+                queryKey: ["appointments"],
+            });
             setDoctor({
                 step: "4",
             });
         },
     });
-
-    // { "message": "I no sick, but they say make I see doctor", // please send the date in this format exactly "date_time": "2024-06-28T21:00:00+01:00", "doctor_id": "666e0de6cc061c723a3557d9" }
 
     const handleBookSession = useCallback(() => {
         const payload = {
