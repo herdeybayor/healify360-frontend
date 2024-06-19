@@ -1,6 +1,6 @@
 "use client";
 
-import BookButton from "@/components/custom/book-button";
+import BookSessionDialog, { useBookSessionQueryStates } from "@/components/custom/book-session-dialog";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DoctorFind } from "@/http";
@@ -8,18 +8,21 @@ import { generateImage, generateRandomNumber } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Briefcase, Filter, GraduationCap, MessageCircle, Search } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
-import { DateRange } from "react-day-picker";
+import { useRouter } from "next/navigation";
+import { parseAsString, useQueryStates } from "nuqs";
 
 function ExplorePage() {
+    const router = useRouter();
     const { data: doctorFindQuery, isPending: isFindingDoctor } = useQuery({
         queryKey: ["find-doctors"],
         queryFn: DoctorFind,
     });
 
-    const [date, setDate] = useState<undefined | DateRange>(undefined);
+    const [_, setDoctor] = useBookSessionQueryStates();
+
     return (
         <div>
+            <BookSessionDialog />
             <div className="flex items-center justify-between">
                 <h1 className="font-semibold text-2xl">Explore</h1>
                 <div className="flex items-center gap-4">
@@ -30,6 +33,7 @@ function ExplorePage() {
                         <Filter className="h-5 w-5" /> Filter
                     </Button>
                 </div>
+                B
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:mt-6 mt-3 gap-4">
@@ -62,8 +66,18 @@ function ExplorePage() {
                                 <GraduationCap className="h-3 w-3" />
                                 <p className="font-normal text-sm">{doctor.years_of_experience} years experience</p>
                             </div>
-                            <BookButton date={date} />
                         </div>
+                        <Button
+                            className="mt-4 w-full"
+                            onClick={() =>
+                                setDoctor({
+                                    doctor: doctor._id,
+                                    name: doctor.full_name,
+                                })
+                            }
+                        >
+                            Book a Session
+                        </Button>
                     </div>
                 ))}
             </div>
