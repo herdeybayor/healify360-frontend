@@ -12,8 +12,8 @@ function SessionCard({ session }: { session: any }) {
     return (
         <div className="flex items-center p-6 border border-slate-200 rounded-2xl bg-background">
             <div className="py-2 border-l-2 pl-2 border-primary">
-                <p>{session.doctor_profile_ref.full_name}</p>
-                <div className="flex gap-2 items-center mt-2">
+                <p className="text-slate-600">{session.doctor_profile_ref.full_name}</p>
+                <div className="flex gap-2 items-center mt-2 text-slate-600">
                     <p className="flex items-center gap-2">
                         <CalendarIcon size={20} /> <span>{format(new Date(session.date_time), "do MMMM yyyy")}</span>
                     </p>
@@ -48,14 +48,14 @@ function SessionsPage() {
                             <SessionCard session={session} key={index} />
                         ))}
                 </TabsContent>
-                <TabsContent value="cancelled">
+                <TabsContent value="cancelled" className="space-y-4 max-w-lg">
                     {appointmentsQuery?.data.docs
                         .filter((session: any) => session.status === "CANCELLED")
                         .map((session: any, index: number) => (
                             <SessionCard session={session} key={index} />
                         ))}
                 </TabsContent>
-                <TabsContent value="all">
+                <TabsContent value="all" className="space-y-4 max-w-lg">
                     {appointmentsQuery?.data.docs.map((session: any, index: number) => (
                         <SessionCard session={session} key={index} />
                     ))}
