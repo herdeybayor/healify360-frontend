@@ -13,7 +13,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { ArrowRight, StarIcon } from 'lucide-react';
+import { ArrowRight, FormInput, StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -80,7 +80,7 @@ export default function Home() {
             patients with certified doctors from partner hospitals. Experience
             convenient and streamlined healthcare like never before.
           </p>
-          <Button className='mt-3'>Sign Up</Button>
+          <Button className='mt-3 w-full lg:w-auto'>Sign Up</Button>
           <div className='max-w-[760px] md:mt-8 mt-5 mx-auto relative'>
             <Image
               src='/patient-dashboard.png'
@@ -283,7 +283,63 @@ export default function Home() {
             ))}
           </div>
           <div className='max-w-[1400px] mx-auto px-8 lg:mt-22 mt-12'>
-            <div className='bg-[#00A32E] rounded-lg lg:p-16 py-10 px-6'></div>
+            <div className='bg-[#00A32E] rounded-lg lg:p-16 py-10 px-6 lg:flex justify-between'>
+              <div className='text-white'>
+                <h4 className='text-3xl font-semibold'>
+                  Revolutionize healthcare with Project X
+                </h4>
+                <p className='text-lg text-white mt-4'>
+                  Connect with certified doctors for convenient and streamlined
+                  healthcare.
+                </p>
+              </div>
+              <div className='lg:space-x-3 space-x-0 mt-8 lg:mt-0'>
+                <Button className='mt-3 w-full lg:w-auto bg-white text-black'>
+                  Sign Up
+                </Button>
+                <Button className='mt-3 w-full lg:w-auto bg-[#0DC440]'>
+                  Book Now
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className='bg-[#EAECF0] px-8'>
+            <div className='max-w-[1400px] flex flex-col md:flex-row justify-between mx-auto lg:mt-11 flex-wrap lg:py-11 py-6 mt-6'>
+              <div>
+                <Logo />
+                <ul className='grid grid-cols-2 justify-between lg:flex gap-3 lg:gap-8 lg:justify-normal mt-8'>
+                  {routes.map((item, index) => (
+                    <li
+                      key={index}
+                      className='text-[#475467] text-base font-semibold'>
+                      <Link href={`#`}>{item}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className='md:mt-0 mt-12'>
+                <h6 className='text-sm font-semibold'>Stay up to date</h6>
+                <div className='gap-4 flex flex-col md:flex-row mt-4'>
+                  <input
+                    type='text'
+                    placeholder='Enter your email'
+                    className='h-full py-2 px-3 rounded-md border-2'
+                  />
+                  <Button className='w-full lg:w-auto'>Subscribe</Button>
+                </div>
+              </div>
+              <div className='md:mt-16 mt-12 border-t w-full text-[#475467] flex justify-between lg:py-8'>
+                <p>© 2024 Healify 360. All rights reserved.</p>
+                <ul className='flex gap-4'>
+                  {['Terms', 'Privacy', 'Cookies'].map((item, index) => (
+                    <li key={index} className='text-base font-semibold'>
+                      <Link href={`#`}>{item}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </main>

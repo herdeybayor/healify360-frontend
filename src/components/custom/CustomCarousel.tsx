@@ -25,7 +25,7 @@ export default function CustomCarousel({
       {...opts}
       plugins={[
         Autoplay({
-          delay: 2000,
+          delay: 4000,
         }),
       ]}
       opts={{
