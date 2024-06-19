@@ -4,140 +4,104 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Step1Data, step1Schema, usePatientOnboardingStep, usePatientOnboardingStore } from "@/store/patient-onboarding-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
-const formSchema = z.object({
-    fullName: z.string({ message: "FullName is required" }).min(2, { message: "Full name must be at least 2 characters long" }).max(255, { message: "Full name must be at most 255 characters long" }),
-    years: z.number({ message: "Years of Experience has to be a number" }),
+function PatientOnboarding2() {
+    const { step1, setData } = usePatientOnboardingStore();
+    const [currentStep, setCurrentStep] = usePatientOnboardingStep();
 
-    address: z.string({ message: "Home Address is required" }),
-    gender: z.string({ message: "Please select a gender" }),
-});
-
-function PatientOnboarding() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            fullName: "",
-            years: 0,
-            address: "",
-            gender: "Male",
-        },
+    const form = useForm<Step1Data>({
+        resolver: zodResolver(step1Schema),
+        defaultValues: step1,
     });
 
-    const onSubmit = useCallback((data: z.infer<typeof formSchema>) => {
-        const payload = {
-            first_name: data.fullName,
-            last_name: data.years,
-            email: data.address,
-            gender: data.gender,
-        };
-
-        // toast.promise(register(payload), {
-        //   loading: 'Registering...',
-        //   success: 'Registration successful',
-        //   error: (error) => error.response?.data.message || 'Registration failed',
-        // });
-    }, []);
-
+    const onSubmit = useCallback(
+        (data: Step1Data) => {
+            setData({ step: 1, data });
+            setCurrentStep("2");
+        },
+        [setData, setCurrentStep]
+    );
     return (
-        <div>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8 flex flex-col">
-                    <FormField
-                        control={form.control}
-                        name="fullName"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Full Name</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Adio Aina" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+        <div className="max-w-md">
+            <h1 className="font-semibold text-2xl">Let&apos;s get you started</h1>
+            <p className="mt-4 text-muted-foreground">Onboarding a patient involves collecting information to ensure their medical care is personalized and effective.</p>
+            <div className="md:mt-8 mt-4">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-8 flex flex-col">
+                        <FormField
+                            control={form.control}
+                            name="full_name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Full Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Adio Aina" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="years"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Years of Experience</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="05" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                        <FormField
+                            control={form.control}
+                            name="date_of_birth"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col gap-2">
+                                    <FormLabel>Date of birth</FormLabel>
+                                    <FormControl>
+                                        <Input type="date" placeholder="Select your date of birth" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="address"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Home Address</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="80, Wesbley Kingdom" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                        <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Gender</FormLabel>
+                                    <FormControl>
+                                        <Select {...field} onValueChange={field.onChange}>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select your gender" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {[
+                                                        { value: "M", label: "Male" },
+                                                        { value: "F", label: "Female" },
+                                                        { value: "O", label: "Other" },
+                                                    ].map((option) => (
+                                                        <SelectItem key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="gender"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Gender</FormLabel>
-                                <FormControl>
-                                    <Select {...field} onValueChange={field.onChange}>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select your gender" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {[
-                                                    { value: "male", label: "Male" },
-                                                    { value: "female", label: "Female" },
-                                                ].map((option) => (
-                                                    <SelectItem key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <div>
-                        <Button type="submit" className="mt-8 w-full">
-                            Submit &rarr;
-                        </Button>
-                    </div>
-                </form>
-
-                <div className="mt-4 text-center">
-                    <p className="text-neutral-600 text-sm dark:text-neutral-300">
-                        Already have an account?{" "}
-                        <Link href="/login" className="text-primary hover:underline">
-                            Login
-                        </Link>
-                    </p>
-                </div>
-            </Form>
+                        <div>
+                            <Button type="submit" className="mt-8 w-full">
+                                Continue
+                            </Button>
+                        </div>
+                    </form>
+                    <p className="text-sm mt-4 text-primary font-semibold">Step 0{currentStep}/03</p>
+                </Form>
+            </div>
         </div>
     );
 }
 
-export default PatientOnboarding;
+export default PatientOnboarding2;

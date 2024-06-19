@@ -1,9 +1,7 @@
 import Logo from "@/components/custom/logo";
 import { MobileNav } from "@/components/custom/mobile-sidebar";
+import PatientNavbar from "@/components/custom/patient-navbar";
 import SideBar from "@/components/custom/sidebar";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
-import Image from "next/image";
 
 import React from "react";
 
@@ -15,21 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <div className="md:hidden">
                     <MobileNav />
                 </div>
-                <div className="hidden md:flex items-center gap-4">
-                    <Button className="bg-[#00AC30]">Book a Session</Button>
-                    <div className="flex items-center gap-2">
-                        <p className="p-4 rounded-full bg-[#E2E8F0]">CN</p>
-                        <Select>
-                            <SelectTrigger className="p-0 outline-none border-none"></SelectTrigger>
-                            <SelectContent className="font-semibold text-[#334155]">
-                                <p className="p-2">My Settings</p>
-                                <SelectItem value="light">Light</SelectItem>
-                                <SelectItem value="dark">Dark</SelectItem>
-                                <SelectItem value="system">System</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                </div>
+                <PatientNavbar />
             </div>
 
             <div className="col-start-1 col-end-2 row-start-1 row-span-full">

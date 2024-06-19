@@ -1,13 +1,12 @@
 "use client";
 
+import useUser from "@/hooks/use-user";
+import { FileClock, Home, LayoutDashboard, MessageCircle, Video } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Logo from "./logo";
-import { FileClock, Home, LayoutDashboard, MessageCircle, Video } from "lucide-react";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
 import { useCallback, useMemo } from "react";
-import useUser from "@/hooks/use-user";
+import { Button } from "../ui/button";
+import Logo from "./logo";
 
 export default function SideBar() {
     const pathname = usePathname();
@@ -59,7 +58,7 @@ export default function SideBar() {
 
     return (
         <div className="p-4">
-            <Logo href="/patients" className="hidden md:block" />
+            <Logo href="/patient" className="hidden md:block" />
 
             <ul className="flex-col p-4 gap-4 hidden md:flex">
                 {routes.map((item, index) => {
