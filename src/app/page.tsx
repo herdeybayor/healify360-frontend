@@ -1,6 +1,9 @@
 import CustomCarousel from '@/components/custom/CustomCarousel';
 import Logo from '@/components/custom/logo';
+import BellIcon from '@/components/icons/BellIcon';
 import MenuIcon from '@/components/icons/MenuIcon';
+import MessageChatCodeIcon from '@/components/icons/MessageChatCodeIcon';
+import ZapIcon from '@/components/icons/ZapIcon';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -80,7 +83,7 @@ export default function Home() {
           <Button className='mt-3'>Sign Up</Button>
           <div className='max-w-[760px] md:mt-8 mt-5 mx-auto relative'>
             <Image
-              src='/doctor-dashboard.png'
+              src='/patient-dashboard.png'
               width={760}
               height={483}
               className='aspect-video'
@@ -103,21 +106,21 @@ export default function Home() {
         <div className='md:mt-12 mt-6 relative'>
           <div className='max-w-[1400px] mx-auto md:grid grid-cols-2 items-center px-4'>
             <div>
-              <div className='py-4'>
+              <div className='py-4 border-l-4 border-[#00AC30] md:pl-6 pl-4'>
                 <h4 className='text-xl font-semibold'>Convinient</h4>
                 <p className='text-base text-[#475467]'>
                   Easily book appointments with certified doctors from partner
                   hospitals, anytime and anywhere.
                 </p>
               </div>
-              <div className='py-4'>
+              <div className='py-4 border-l-4 md:pl-6 pl-4'>
                 <h4 className='text-xl font-semibold'>Secure</h4>
                 <p className='text-base text-[#475467]'>
                   Communicate with doctors securely and privately through our
                   encrypted messaging system.
                 </p>
               </div>
-              <div className='py-4'>
+              <div className='py-4 border-l-4 md:pl-6 pl-4'>
                 <h4 className='text-xl font-semibold'>Efficient</h4>
                 <p className='text-base text-[#475467]'>
                   Streamline the healthcare process and save time with our
@@ -230,6 +233,57 @@ export default function Home() {
                 </CarouselItem>
               </CustomCarousel>
             </div>
+          </div>
+        </div>
+        <div>
+          <h3 className='lg:text-4xl text-3xl font-semibold mt-12 lg:mt-22 text-center px-4'>
+            Discover Our Comprehensive Healthcare Services
+          </h3>
+          <div className='max-w-[760px] md:mt-8 mt-5 mx-auto relative'>
+            <Image
+              src='/doctor-dashboard.png'
+              width={760}
+              height={483}
+              className='aspect-video'
+              alt=''
+            />
+          </div>
+          <div className='mt-12 flex flex-col lg:flex-row justify-between gap-12 max-w-[1400px] mx-auto px-8'>
+            {[
+              {
+                title:
+                  'Connect with Certified Doctors for Expert Consultations',
+                description:
+                  'Our platform offers a wide range of healthcare services, including doctor consultations and more.',
+                icon: <MessageChatCodeIcon />,
+              },
+              {
+                title:
+                  'Access Convenient Healthcare Solutions Anytime, Anywhere',
+                description:
+                  'Experience the ease of accessing healthcare solutions at your fingertips.',
+                icon: <ZapIcon />,
+              },
+              {
+                title: 'Stay Informed with the Latest Medical Updates and News',
+                description:
+                  'Get access to the most recent medical updates and news to stay informed.',
+                icon: <BellIcon />,
+              },
+            ].map((item, index) => (
+              <div key={index} className='text-center'>
+                <div className='flex justify-center p-3 mx-auto rounded-full bg-[#EBFFF1] w-fit'>
+                  {item.icon}
+                </div>
+                <h4 className='text-xl font-semibold leading-8 mt-4 lg:mt-5'>
+                  {item.title}
+                </h4>
+                <p className='mt-2 text-[#475467]'>{item.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className='max-w-[1400px] mx-auto px-8 lg:mt-22 mt-12'>
+            <div className='bg-[#00A32E] rounded-lg lg:p-16 py-10 px-6'></div>
           </div>
         </div>
       </main>
