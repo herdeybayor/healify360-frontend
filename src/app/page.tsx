@@ -130,15 +130,22 @@ export default function Home() {
                 src='/patient-select-time.png'
                 width={760}
                 height={660}
-                className='aspect-video'
+                className='aspect-video hidden lg:block'
+                alt=''
+              />
+              <Image
+                src='/patient-select-time-mobile.png'
+                width={760}
+                height={660}
+                className='aspect-video block md:hidden'
                 alt=''
               />
             </div>
           </div>
         </div>
         <div className='max-w-[1400px] mx-auto py-11 px-4'>
-          <div className='lg:flex rounded-lg overflow-hidden'>
-            <div className='flex-1 bg-[#00AC30] relative'>
+          <div className='lg:grid grid-cols-[65%_1fr] rounded-lg overflow-hidden'>
+            <div className='bg-[#00AC30] relative'>
               <CustomCarousel className='lg:py-12'>
                 <CarouselItem>
                   <div className='max-w-[85%] mx-auto text-white'>
@@ -174,7 +181,7 @@ export default function Home() {
             </div>
             <div>
               <CustomCarousel
-                className='flex-col h-[460px]'
+                className='flex-col lg:h-[460px]'
                 opts={{
                   orientation: 'vertical',
                 }}>
@@ -184,7 +191,7 @@ export default function Home() {
                     alt=''
                     height={460}
                     width={480}
-                    className='w-full'
+                    className='w-full h-full'
                   />
                 </CarouselItem>
                 <CarouselItem>
@@ -193,7 +200,7 @@ export default function Home() {
                     alt=''
                     height={460}
                     width={480}
-                    className='w-full'
+                    className='w-full h-full'
                   />
                 </CarouselItem>
                 <CarouselItem>
@@ -202,7 +209,7 @@ export default function Home() {
                     alt=''
                     height={460}
                     width={480}
-                    className='w-full'
+                    className='w-full h-full'
                   />
                 </CarouselItem>
               </CustomCarousel>
