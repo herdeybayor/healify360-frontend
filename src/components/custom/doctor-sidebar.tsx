@@ -1,7 +1,7 @@
 "use client";
 
 import useUser from "@/hooks/use-user";
-import { FileClock, Home, MessageCircle } from "lucide-react";
+import { FileClock, Home, Video } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
@@ -28,9 +28,9 @@ function DoctorSidebar() {
                   ]
                 : [
                       {
-                          label: "Message",
-                          url: "/doctor/message",
-                          icon: <MessageCircle />,
+                          label: "Session",
+                          url: "/doctor/session",
+                          icon: <Video />,
                       },
                   ]),
         ],

@@ -11,6 +11,7 @@ export const PatientProfileGet = async () => $http.get(`/patients/profile/get`).
 export const DoctorProfileCreate = async (data: any) => $http.post(`/doctors/profile/create`, data).then((res) => res.data);
 export const DoctorProfileGet = async () => $http.get(`/doctors/profile/get`).then((res) => res.data);
 export const DoctorFind = async () => $http.get(`/doctors/find`).then((res) => res.data);
+export const DoctorDashboard = async () => $http.get(`/doctors/dashboard`).then((res) => res.data);
 
 export const AppointmentBook = async (data: any) => $http.post(`/appointments/book`, data).then((res) => res.data);
 export const AppointmentGet = async (id: string) => $http.get(`/appointments/${id}`).then((res) => res.data);
