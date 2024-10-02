@@ -25,7 +25,7 @@ function SessionPage() {
 
             {appointmentQuery && (
                 <JitsiMeeting
-                    domain={"healify360-web.cp.keenzchillz.properties"}
+                    // domain={"healify360-web.cp.keenzchillz.properties"}
                     roomName={`Meet with ${appointmentQuery.data.doctor_profile_ref.full_name}`}
                     configOverwrite={{
                         startWithAudioMuted: false,
