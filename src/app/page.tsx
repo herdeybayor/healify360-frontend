@@ -107,7 +107,7 @@ export default function Home() {
           <div className='max-w-[1400px] mx-auto md:grid grid-cols-2 items-center px-4'>
             <div>
               <div className='py-4 border-l-4 border-[#00AC30] md:pl-6 pl-4'>
-                <h4 className='text-xl font-semibold'>Convinient</h4>
+                <h4 className='text-xl font-semibold'>Convenient</h4>
                 <p className='text-base text-[#475467]'>
                   Easily book appointments with certified doctors from partner
                   hospitals, anytime and anywhere.
