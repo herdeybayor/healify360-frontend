@@ -54,15 +54,19 @@ export default function Home() {
 
             <main>
                 <div className="max-w-[1100px] mx-auto md:mt-16 mt-8 text-center px-4">
-                    <Button variant="outline" className="text-sm mx-auto text-[#00AC30] font-semibold space-x-1">
-                        Connect with a Doctor <ArrowRight />
-                    </Button>
+                    <Link href="/login">
+                        <Button variant="outline" className="text-sm mx-auto text-[#00AC30] font-semibold space-x-1">
+                            Connect with a Doctor <ArrowRight />
+                        </Button>
+                    </Link>
                     <h1 className="lg:text-5xl text-lg md:text-3xl font-semibold mt-4">{"Revolutionising healthcare through seamless \ndoctor-patient connections"}</h1>
                     <p className="text-[#475467] mt-4">
                         Healify 360 is on a mission to transform healthcare by connecting patients with certified doctors from partner hospitals. Experience convenient and streamlined healthcare like
                         never before.
                     </p>
-                    <Button className="mt-3 w-full lg:w-auto">Sign Up</Button>
+                    <Link href="/login">
+                        <Button className="mt-3 w-full lg:w-auto">Sign Up</Button>
+                    </Link>
                     <div className="max-w-[760px] md:mt-8 mt-5 mx-auto relative">
                         <Image src="/patient-dashboard.png" width={760} height={483} className="aspect-video" alt="" />
                     </div>
